@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartRestaurant", "smartRestaurant.csproj", "{C15789FF-BE4F-4957-94AF-DEACD3B7F818}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartService", "http://localhost/smartService/smartService.csproj", "{5340FA3D-EC45-4432-844B-2A8E3AA92E62}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C15789FF-BE4F-4957-94AF-DEACD3B7F818}.Debug.ActiveCfg = Debug|.NET
+		{C15789FF-BE4F-4957-94AF-DEACD3B7F818}.Debug.Build.0 = Debug|.NET
+		{C15789FF-BE4F-4957-94AF-DEACD3B7F818}.Release.ActiveCfg = Release|.NET
+		{C15789FF-BE4F-4957-94AF-DEACD3B7F818}.Release.Build.0 = Release|.NET
+		{5340FA3D-EC45-4432-844B-2A8E3AA92E62}.Debug.ActiveCfg = Debug|.NET
+		{5340FA3D-EC45-4432-844B-2A8E3AA92E62}.Debug.Build.0 = Debug|.NET
+		{5340FA3D-EC45-4432-844B-2A8E3AA92E62}.Release.ActiveCfg = Release|.NET
+		{5340FA3D-EC45-4432-844B-2A8E3AA92E62}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

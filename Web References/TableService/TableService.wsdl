@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.smartRestaurant.net" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.smartRestaurant.net" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.smartRestaurant.net">
+      <s:element name="GetTableList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTableListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTableListResult" type="tns:ArrayOfTableInformation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTableInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TableInformation" nillable="true" type="tns:TableInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TableInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TableID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfSeat" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTableInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tableID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTableInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTableInformationResult" type="tns:TableInformation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTableStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTableStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTableStatusResult" type="tns:ArrayOfTableStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTableStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TableStatus" nillable="true" type="tns:TableStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TableStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="InUse" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsPrintBill" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsWaitingItem" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="LockInUse" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="TableID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateTableLockInuse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tableID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="lockInUse" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateTableLockInuseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateTableLockInuseResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetTableListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTableList" />
+  </wsdl:message>
+  <wsdl:message name="GetTableListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTableListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTableInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTableInformation" />
+  </wsdl:message>
+  <wsdl:message name="GetTableInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTableInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTableStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTableStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetTableStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTableStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateTableLockInuseSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateTableLockInuse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateTableLockInuseSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateTableLockInuseResponse" />
+  </wsdl:message>
+  <wsdl:portType name="TableServiceSoap">
+    <wsdl:operation name="GetTableList">
+      <wsdl:input message="tns:GetTableListSoapIn" />
+      <wsdl:output message="tns:GetTableListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTableInformation">
+      <wsdl:input message="tns:GetTableInformationSoapIn" />
+      <wsdl:output message="tns:GetTableInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTableStatus">
+      <wsdl:input message="tns:GetTableStatusSoapIn" />
+      <wsdl:output message="tns:GetTableStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTableLockInuse">
+      <wsdl:input message="tns:UpdateTableLockInuseSoapIn" />
+      <wsdl:output message="tns:UpdateTableLockInuseSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TableServiceSoap" type="tns:TableServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="GetTableList">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/GetTableList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTableInformation">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/GetTableInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTableStatus">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/GetTableStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTableLockInuse">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/UpdateTableLockInuse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TableService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="TableServiceSoap" binding="tns:TableServiceSoap">
+      <soap:address location="http://localhost/smartService/TableService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

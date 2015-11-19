@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ws.smartRestaurant.net" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ws.smartRestaurant.net" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.smartRestaurant.net">
+      <s:element name="GetMenus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AppName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMenusResult" type="tns:ArrayOfMenuType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMenuType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MenuType" nillable="true" type="tns:MenuType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MenuType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax1" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax2" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="MenuItems" type="tns:ArrayOfMenuItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMenuItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MenuItem" nillable="true" type="tns:MenuItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MenuItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="KeyID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="KeyIDText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MenuDefaults" type="tns:ArrayOfMenuDefault" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="TypeID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMenuDefault">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MenuDefault" nillable="true" type="tns:MenuDefault" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MenuDefault">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MenuID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OptionID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DefaultChoiceID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AppName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOptionsResult" type="tns:ArrayOfMenuOption" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMenuOption">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MenuOption" nillable="true" type="tns:MenuOption" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MenuOption">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="OptionChoices" type="tns:ArrayOfOptionChoice" />
+          <s:element minOccurs="1" maxOccurs="1" name="OptionID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OptionName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOptionChoice">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OptionChoice" nillable="true" type="tns:OptionChoice" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OptionChoice">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ChoiceID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChoiceName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OptionID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetMenusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenus" />
+  </wsdl:message>
+  <wsdl:message name="GetMenusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOptions" />
+  </wsdl:message>
+  <wsdl:message name="GetOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOptionsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MenuServiceSoap">
+    <wsdl:operation name="GetMenus">
+      <wsdl:input message="tns:GetMenusSoapIn" />
+      <wsdl:output message="tns:GetMenusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOptions">
+      <wsdl:input message="tns:GetOptionsSoapIn" />
+      <wsdl:output message="tns:GetOptionsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MenuServiceSoap" type="tns:MenuServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="GetMenus">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/GetMenus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOptions">
+      <soap:operation soapAction="http://ws.smartRestaurant.net/GetOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MenuService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="MenuServiceSoap" binding="tns:MenuServiceSoap">
+      <soap:address location="http://localhost/smartService/MenuService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
