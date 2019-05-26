@@ -708,6 +708,12 @@ namespace smartRestaurant
 
 		private void LoadTableListStyle()
 		{
+            // To load table style
+            // Read from app.config
+            //TableListStyle: Table List style to show on screen.
+	        //Value:	1 - Dimension  8x3 (22,24) (diabled waiting list -  8x 7)
+			//          2 - Dimension 12x3 (34,36) (diabled waiting list - 12x 7)
+			//          3 - Dimension  8x5 (38,40) (diabled waiting list -  8x11)
 			switch (AppParameter.TableListStyle)
 			{
 				case "1":

@@ -70,8 +70,7 @@ namespace smartRestaurant.Controls
 					}
 					this.buttons[i].Image = this.image;
 					this.buttons[i].ImageClick = this.imageClick;
-					this.buttons[i].Width = this.imageClick.Width;
-					this.buttons[i].Height = this.imageClick.Height;
+
 					int num = (i % this.column) * (this.buttons[i].Width + this.padding);
 					int num2 = (i / this.column) * (this.buttons[i].Height + this.padding);
 					this.buttons[i].Left = num;
@@ -367,7 +366,7 @@ namespace smartRestaurant.Controls
 			set
 			{
 				this.imageClickIndex = value;
-				if (this.imageList != null)
+				if (this.imageList != null && this.imageList.Images.Count != 0)
 				{
 					this.ImageClick = this.imageList.Images[this.imageClickIndex];
 				}
@@ -383,7 +382,7 @@ namespace smartRestaurant.Controls
 			set
 			{
 				this.imageIndex = value;
-				if (this.imageList != null)
+				if (this.imageList != null && this.imageList.Images.Count != 0)
 				{
 					this.Image = this.imageList.Images[this.imageIndex];
 				}
@@ -474,6 +473,13 @@ namespace smartRestaurant.Controls
 				this.BuildButtonList();
 			}
 		}
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.ResumeLayout(false);
+
+        }
 	}
 	public delegate void ButtonListPadEventHandler(object sender, ButtonListPadEventArgs e);
 	public class ButtonListPadEventArgs : System.ComponentModel.Component

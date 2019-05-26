@@ -1,723 +1,545 @@
-<VisualStudioProject>
-    <CSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.3077"
-        SchemaVersion = "2.0"
-        ProjectGuid = "{C15789FF-BE4F-4957-94AF-DEACD3B7F818}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = "smartTouch.ico"
-                AssemblyKeyContainerName = ""
-                AssemblyName = "smartRestaurant"
-                AssemblyOriginatorKeyFile = ""
-                DefaultClientScript = "JScript"
-                DefaultHTMLPageLayout = "Grid"
-                DefaultTargetSchema = "IE50"
-                DelaySign = "false"
-                OutputType = "WinExe"
-                PreBuildEvent = ""
-                PostBuildEvent = ""
-                RootNamespace = "smartRestaurant"
-                RunPostBuildEvent = "OnBuildSuccess"
-                StartupObject = ""
-            >
-                <Config
-                    Name = "Debug"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "true"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-            </Settings>
-            <References>
-                <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
-                />
-                <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
-                />
-                <Reference
-                    Name = "System.Windows.Forms"
-                    AssemblyName = "System.Windows.Forms"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Windows.Forms.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
-                />
-                <Reference
-                    Name = "System.Web.Services"
-                    AssemblyName = "System.Web.Services"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Web.Services.dll"
-                />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "app.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "App.ico"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "app.xsd"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "app.xsx"
-                    DependentUpon = "app.xsd"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LoginForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LoginForm.resx"
-                    DependentUpon = "LoginForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "MainForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MainForm.resx"
-                    DependentUpon = "MainForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "MainMenuForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MainMenuForm.resx"
-                    DependentUpon = "MainMenuForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "PrintReceiptForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "PrintReceiptForm.resx"
-                    DependentUpon = "PrintReceiptForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "ReserveForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ReserveForm.resx"
-                    DependentUpon = "ReserveForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SearchCustomerForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SearchCustomerForm.resx"
-                    DependentUpon = "SearchCustomerForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SmartForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SmartForm.resx"
-                    DependentUpon = "SmartForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "smartTouch.ico"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "TakeOrderForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TakeOrderForm.resx"
-                    DependentUpon = "TakeOrderForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "TakeOutForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TakeOutForm.resx"
-                    DependentUpon = "TakeOutForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Business\InvoiceViewerForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\InvoiceViewerForm.resx"
-                    DependentUpon = "InvoiceViewerForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Business\SalesForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Business\SalesForm.resx"
-                    DependentUpon = "SalesForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\ButtonItem.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\ButtonItem.resx"
-                    DependentUpon = "ButtonItem.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\ButtonListPad.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\ButtonListPad.resx"
-                    DependentUpon = "ButtonListPad.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\DataItem.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\GroupPanel.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\GroupPanel.resx"
-                    DependentUpon = "GroupPanel.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\ImageButton.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\ImageButton.resx"
-                    DependentUpon = "ImageButton.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\ItemsList.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\ItemsList.resx"
-                    DependentUpon = "ItemsList.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\KeyboardPad.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\KeyboardPad.resx"
-                    DependentUpon = "KeyboardPad.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Controls\NumberPad.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Controls\NumberPad.resx"
-                    DependentUpon = "NumberPad.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Data\Customer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\MenuManagement.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\OrderManagement.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\Receipt.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\ReportConverter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\RoadItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Data\UserProfile.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "images\btn_down.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\btn_down_click.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\btn_lite.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\btn_lite_click.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\btn_normal.gif"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "images\btn_normal_click.gif"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "images\btn_number.gif"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "images\btn_number_click.gif"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "images\btn_up.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\btn_up_click.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\pc_logo.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\printer1.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\printer2.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\printer3.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "images\printer4.gif"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Utils\AppParameter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\CalculatorForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\CalculatorForm.resx"
-                    DependentUpon = "CalculatorForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Utils\CancelForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\CancelForm.resx"
-                    DependentUpon = "CancelForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Utils\KeyboardForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\KeyboardForm.resx"
-                    DependentUpon = "KeyboardForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Utils\MessageForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\MessageForm.resx"
-                    DependentUpon = "MessageForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Utils\TableForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\TableForm.resx"
-                    DependentUpon = "TableForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Utils\WaitingForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utils\WaitingForm.resx"
-                    DependentUpon = "WaitingForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Web References\BusinessService\BusinessService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\BusinessService\BusinessService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\BusinessService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\BusinessService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\BusinessService\"
-                    WebReferenceUrl = "http://localhost/smartService/BusinessService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\CheckBillService\CheckBillService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\CheckBillService\CheckBillService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\CheckBillService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\CheckBillService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\CheckBillService\"
-                    WebReferenceUrl = "http://localhost/smartService/CheckBillService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\CustomerService\CustomerService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\CustomerService\CustomerService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\CustomerService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\CustomerService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\CustomerService\"
-                    WebReferenceUrl = "http://localhost/smartService/CustomerService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\MenuService\MenuService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\MenuService\MenuService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\MenuService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\MenuService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\MenuService\"
-                    WebReferenceUrl = "http://localhost/smartService/MenuService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\OrderService\OrderService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\OrderService\OrderService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\OrderService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\OrderService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\OrderService\"
-                    WebReferenceUrl = "http://localhost/smartService/OrderService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\PaymentService\PaymentService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\PaymentService\PaymentService.wsdl"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\PaymentService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\PaymentService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <Folder
-                    RelPath = "Web References\PaymentService\"
-                    WebReferenceUrl = "http://localhost/smartService/PaymentService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\ReserveService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\ReserveService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <File
-                    RelPath = "Web References\ReserveService\ReserveService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\ReserveService\ReserveService.wsdl"
-                    BuildAction = "None"
-                />
-                <Folder
-                    RelPath = "Web References\ReserveService\"
-                    WebReferenceUrl = "http://localhost/smartService/ReserveService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\TableService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\TableService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <File
-                    RelPath = "Web References\TableService\TableService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\TableService\TableService.wsdl"
-                    BuildAction = "None"
-                />
-                <Folder
-                    RelPath = "Web References\TableService\"
-                    WebReferenceUrl = "http://localhost/smartService/TableService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <File
-                    RelPath = "Web References\UserAuthorizeService\Reference.map"
-                    BuildAction = "None"
-                    Generator = "MSDiscoCodeGenerator"
-                    LastGenOutput = "Reference.cs"
-                />
-                <File
-                    RelPath = "Web References\UserAuthorizeService\Reference.cs"
-                    DependentUpon = "Reference.map"
-                    SubType = "code"
-                    BuildAction = "Compile"
-                    DesignTime = "True"
-                    AutoGen = "True"
-                />
-                <File
-                    RelPath = "Web References\UserAuthorizeService\UserAuthorizeService.disco"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Web References\UserAuthorizeService\UserAuthorizeService.wsdl"
-                    BuildAction = "None"
-                />
-                <Folder
-                    RelPath = "Web References\UserAuthorizeService\"
-                    WebReferenceUrl = "http://localhost/smartService/UserAuthorizeService.asmx"
-                    UrlBehavior = "Dynamic"
-                />
-                <Folder
-                    RelPath = "Web References\"
-                    WebReferences = "TRUE"
-                />
-            </Include>
-        </Files>
-    </CSHARP>
-</VisualStudioProject>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C15789FF-BE4F-4957-94AF-DEACD3B7F818}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>smartTouch.ico</ApplicationIcon>
+    <AssemblyKeyContainerName />
+    <AssemblyName>smartRestaurant</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>smartRestaurant</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject />
+    <WebReference_EnableProperties>true</WebReference_EnableProperties>
+    <WebReference_EnableSQLTypes>false</WebReference_EnableSQLTypes>
+    <WebReference_EnableLegacyEventingModel>true</WebReference_EnableLegacyEventingModel>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services">
+      <Name>System.Web.Services</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Business\InvoiceViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\SalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonListPad.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DataItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\GroupPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ItemsList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\KeyboardPad.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NumberPad.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\Customer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\MenuManagement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\OrderManagement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Receipt.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ReportConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\RoadItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\UserProfile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintReceiptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReserveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TakeOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TakeOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\AppParameter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils\CalculatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\CancelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\KeyboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\TableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\WaitingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Web References\BusinessService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CheckBillService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\CustomerService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\MenuService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\OrderService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\PaymentService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\ReserveService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\TableService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Web References\UserAuthorizeService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Content Include="App.ico" />
+    <Content Include="app.xsd" />
+    <Content Include="images\btn_down.gif" />
+    <Content Include="images\btn_down_click.gif" />
+    <Content Include="images\btn_lite.gif" />
+    <Content Include="images\btn_lite_click.gif" />
+    <Content Include="images\btn_up.gif" />
+    <Content Include="images\btn_up_click.gif" />
+    <Content Include="images\pc_logo.gif" />
+    <Content Include="images\printer1.gif" />
+    <Content Include="images\printer2.gif" />
+    <Content Include="images\printer3.gif" />
+    <Content Include="images\printer4.gif" />
+    <Content Include="smartTouch.ico" />
+    <EmbeddedResource Include="Business\InvoiceViewerForm.resx">
+      <DependentUpon>InvoiceViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\SalesForm.resx">
+      <DependentUpon>SalesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ButtonItem.resx">
+      <DependentUpon>ButtonItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ButtonListPad.resx">
+      <DependentUpon>ButtonListPad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GroupPanel.resx">
+      <DependentUpon>GroupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ImageButton.resx">
+      <DependentUpon>ImageButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ItemsList.resx">
+      <DependentUpon>ItemsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KeyboardPad.resx">
+      <DependentUpon>KeyboardPad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NumberPad.resx">
+      <DependentUpon>NumberPad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\btn_normal.gif" />
+    <EmbeddedResource Include="images\btn_normal_click.gif" />
+    <EmbeddedResource Include="images\btn_number.gif" />
+    <EmbeddedResource Include="images\btn_number_click.gif" />
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMenuForm.resx">
+      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintReceiptForm.resx">
+      <DependentUpon>PrintReceiptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReserveForm.resx">
+      <DependentUpon>ReserveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchCustomerForm.resx">
+      <DependentUpon>SearchCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmartForm.resx">
+      <DependentUpon>SmartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TakeOrderForm.resx">
+      <DependentUpon>TakeOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TakeOutForm.resx">
+      <DependentUpon>TakeOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\CalculatorForm.resx">
+      <DependentUpon>CalculatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\CancelForm.resx">
+      <DependentUpon>CancelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\KeyboardForm.resx">
+      <DependentUpon>KeyboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\TableForm.resx">
+      <DependentUpon>TableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\WaitingForm.resx">
+      <DependentUpon>WaitingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.xsx">
+      <DependentUpon>app.xsd</DependentUpon>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\BusinessService\BusinessService.disco" />
+    <None Include="Web References\BusinessService\BusinessService.wsdl" />
+    <None Include="Web References\BusinessService\DataStream.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BusinessService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CheckBillService\CheckBillService.disco" />
+    <None Include="Web References\CheckBillService\CheckBillService.wsdl" />
+    <None Include="Web References\CheckBillService\Invoice.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\CheckBillService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CustomerService\CustomerInformation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\CustomerService\CustomerService.disco" />
+    <None Include="Web References\CustomerService\CustomerService.wsdl" />
+    <None Include="Web References\CustomerService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\MenuService\MenuService.disco" />
+    <None Include="Web References\MenuService\MenuService.wsdl" />
+    <None Include="Web References\MenuService\MenuType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\MenuService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\OrderService\OrderInformation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\OrderService\OrderService.disco" />
+    <None Include="Web References\OrderService\OrderService.wsdl" />
+    <None Include="Web References\OrderService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\PaymentService\PaymentMethod.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\PaymentService\PaymentService.disco" />
+    <None Include="Web References\PaymentService\PaymentService.wsdl" />
+    <None Include="Web References\PaymentService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ReserveService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ReserveService\ReserveService.disco" />
+    <None Include="Web References\ReserveService\ReserveService.wsdl" />
+    <None Include="Web References\ReserveService\TableReserve.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TableService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\TableService\TableInformation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TableService\TableService.disco" />
+    <None Include="Web References\TableService\TableService.wsdl" />
+    <None Include="Web References\UserAuthorizeService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\UserAuthorizeService\UserAuthorizeService.disco" />
+    <None Include="Web References\UserAuthorizeService\UserAuthorizeService.wsdl" />
+    <None Include="Web References\UserAuthorizeService\UserProfile.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <WebReferences Include="Web References\" />
+    <WebReferenceUrl Include="http://localhost/smartService/BusinessService.asmx">
+      <RelPath>Web References\BusinessService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/BusinessService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_BusinessService_BusinessService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/CheckBillService.asmx">
+      <RelPath>Web References\CheckBillService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/CheckBillService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_CheckBillService_CheckBillService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/CustomerService.asmx">
+      <RelPath>Web References\CustomerService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/CustomerService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_CustomerService_CustomerService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/MenuService.asmx">
+      <RelPath>Web References\MenuService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/MenuService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_MenuService_MenuService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/OrderService.asmx">
+      <RelPath>Web References\OrderService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/OrderService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_OrderService_OrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/PaymentService.asmx">
+      <RelPath>Web References\PaymentService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/PaymentService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_PaymentService_PaymentService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/ReserveService.asmx">
+      <RelPath>Web References\ReserveService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/ReserveService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_ReserveService_ReserveService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/TableService.asmx">
+      <RelPath>Web References\TableService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/TableService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_TableService_TableService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/smartService/UserAuthorizeService.asmx">
+      <RelPath>Web References\UserAuthorizeService\</RelPath>
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <UpdateFromURL>http://localhost/smartService/UserAuthorizeService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>smartRestaurant_UserAuthorizeService_UserAuthorizeService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>
