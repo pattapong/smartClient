@@ -1,53 +1,82 @@
+using smartRestaurant.Controls;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using smartRestaurant.Controls;
 using System.Resources;
+using System.Windows.Forms;
 
 namespace smartRestaurant.Utils
 {
-	/// <summary>
-	/// Summary description for CancelForm.
-	/// </summary>
 	public class CalculatorForm : Form
 	{
-		// Fields
-		private smartRestaurant.Controls.ImageButton BtnBackspace;
-		private smartRestaurant.Controls.ImageButton BtnClear;
-		private smartRestaurant.Controls.ImageButton BtnClose;
-		private smartRestaurant.Controls.ImageButton BtnCurrentClear;
-		private smartRestaurant.Controls.ImageButton BtnDivide;
-		private smartRestaurant.Controls.ImageButton BtnDot;
-		private smartRestaurant.Controls.ImageButton BtnEqual;
-		private smartRestaurant.Controls.ImageButton BtnMinus;
-		private smartRestaurant.Controls.ImageButton BtnMultiple;
-		private smartRestaurant.Controls.ImageButton BtnNo0;
-		private smartRestaurant.Controls.ImageButton BtnNo1;
-		private smartRestaurant.Controls.ImageButton BtnNo2;
-		private smartRestaurant.Controls.ImageButton BtnNo3;
-		private smartRestaurant.Controls.ImageButton BtnNo4;
-		private smartRestaurant.Controls.ImageButton BtnNo5;
-		private smartRestaurant.Controls.ImageButton BtnNo6;
-		private smartRestaurant.Controls.ImageButton BtnNo7;
-		private smartRestaurant.Controls.ImageButton BtnNo8;
-		private smartRestaurant.Controls.ImageButton BtnNo9;
-		private smartRestaurant.Controls.ImageButton BtnPlus;
-		private smartRestaurant.Controls.ImageButton BtnSwitch;
-		private ImageList ButtonLiteImgList;
-		private IContainer components;
-		private double currentDot;
-		private double currentNumber;
-		private double currentTotal;
-		private Label FieldNumber;
-		private static CalculatorForm instance = null;
+		private static CalculatorForm instance;
+
 		private ImageList NumberImgList;
-		private bool showTotal;
+
+		private ImageButton BtnNo1;
+
+		private ImageButton BtnNo3;
+
+		private ImageButton BtnNo2;
+
+		private ImageButton BtnNo5;
+
+		private ImageButton BtnNo6;
+
+		private ImageButton BtnNo4;
+
+		private ImageButton BtnNo8;
+
+		private ImageButton BtnNo9;
+
+		private ImageButton BtnNo7;
+
+		private ImageButton BtnNo0;
+
+		private ImageButton BtnDot;
+
+		private ImageButton BtnEqual;
+
+		private ImageButton BtnMultiple;
+
+		private ImageButton BtnPlus;
+
+		private ImageButton BtnMinus;
+
+		private ImageButton BtnBackspace;
+
+		private ImageButton BtnCurrentClear;
+
+		private ImageButton BtnClear;
+
+		private ImageButton BtnSwitch;
+
+		private ImageButton BtnDivide;
+
+		private Label FieldNumber;
+
+		private IContainer components;
+
 		private char sign;
 
-		// Methods
+		private bool showTotal;
+
+		private double currentTotal;
+
+		private double currentNumber;
+
+		private ImageList ButtonLiteImgList;
+
+		private ImageButton BtnClose;
+
+		private double currentDot;
+
+		static CalculatorForm()
+		{
+			CalculatorForm.instance = null;
+		}
+
 		public CalculatorForm()
 		{
 			this.InitializeComponent();
@@ -92,19 +121,19 @@ namespace smartRestaurant.Utils
 			}
 			else if (sender == this.BtnSwitch)
 			{
-				if ((this.currentNumber == 0.0) && (this.FieldNumber.Text != "0"))
+				if (this.currentNumber != 0 || !(this.FieldNumber.Text != "0"))
+				{
+					this.currentNumber = -this.currentNumber;
+				}
+				else
 				{
 					this.currentTotal = -this.currentTotal;
 					this.showTotal = true;
 				}
-				else
-				{
-					this.currentNumber = -this.currentNumber;
-				}
 			}
-			else if ((sender == this.BtnDot) && (this.currentDot == 1.0))
+			else if (sender == this.BtnDot && this.currentDot == 1)
 			{
-				this.currentDot = 10.0;
+				this.currentDot = 10;
 				this.showTotal = false;
 			}
 			else if (sender == this.BtnClear)
@@ -117,16 +146,16 @@ namespace smartRestaurant.Utils
 			}
 			else if (sender == this.BtnBackspace)
 			{
-				if (this.currentDot > 10.0)
+				if (this.currentDot <= 10)
 				{
-					this.currentDot /= 10.0;
-					this.currentNumber *= this.currentDot;
-					this.currentNumber = (this.currentNumber - (((long) this.currentNumber) % 10L)) / this.currentDot;
+					this.currentDot = 1;
+					this.currentNumber = (this.currentNumber - (double)((long)this.currentNumber % (long)10)) / 10;
 				}
 				else
 				{
-					this.currentDot = 1.0;
-					this.currentNumber = (this.currentNumber - (((long) this.currentNumber) % 10L)) / 10.0;
+					this.currentDot /= 10;
+					this.currentNumber *= this.currentDot;
+					this.currentNumber = (this.currentNumber - (double)((long)this.currentNumber % (long)10)) / this.currentDot;
 				}
 			}
 			this.ShowNumber();
@@ -136,81 +165,74 @@ namespace smartRestaurant.Utils
 		{
 			double num;
 			int length = this.currentNumber.ToString().Length;
-			if (this.currentDot > 1.0)
+			if (this.currentDot > 1)
 			{
 				length++;
 			}
-			if (length < 15)
+			if (length >= 15)
 			{
-				if (sender == this.BtnNo0)
-				{
-					num = 0.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo1)
-				{
-					num = 1.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo2)
-				{
-					num = 2.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo3)
-				{
-					num = 3.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo4)
-				{
-					num = 4.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo5)
-				{
-					num = 5.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo6)
-				{
-					num = 6.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo7)
-				{
-					num = 7.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo8)
-				{
-					num = 8.0;
-					goto Label_0108;
-				}
-				if (sender == this.BtnNo9)
-				{
-					num = 9.0;
-					goto Label_0108;
-				}
+				return;
 			}
-			return;
-			Label_0108:
-				if (this.currentDot > 1.0)
+			if (sender == this.BtnNo0)
+			{
+				num = 0;
+			}
+			else if (sender == this.BtnNo1)
+			{
+				num = 1;
+			}
+			else if (sender == this.BtnNo2)
+			{
+				num = 2;
+			}
+			else if (sender == this.BtnNo3)
+			{
+				num = 3;
+			}
+			else if (sender == this.BtnNo4)
+			{
+				num = 4;
+			}
+			else if (sender == this.BtnNo5)
+			{
+				num = 5;
+			}
+			else if (sender == this.BtnNo6)
+			{
+				num = 6;
+			}
+			else if (sender == this.BtnNo7)
+			{
+				num = 7;
+			}
+			else if (sender != this.BtnNo8)
+			{
+				if (sender != this.BtnNo9)
 				{
-					this.currentNumber += num / this.currentDot;
-					this.currentDot *= 10.0;
+					return;
 				}
-				else
-				{
-					this.currentNumber = (this.currentNumber * 10.0) + num;
-				}
+				num = 9;
+			}
+			else
+			{
+				num = 8;
+			}
+			if (this.currentDot <= 1)
+			{
+				this.currentNumber = this.currentNumber * 10 + num;
+			}
+			else
+			{
+				this.currentNumber = this.currentNumber + num / this.currentDot;
+				this.currentDot *= 10;
+			}
 			this.showTotal = false;
 			this.ShowNumber();
 		}
 
 		private void ClearAll()
 		{
-			this.currentTotal = 0.0;
+			this.currentTotal = 0;
 			this.sign = ' ';
 			this.ClearCurrent();
 			this.showTotal = true;
@@ -218,50 +240,64 @@ namespace smartRestaurant.Utils
 
 		private void ClearCurrent()
 		{
-			this.currentDot = 1.0;
-			this.currentNumber = 0.0;
+			this.currentDot = 1;
+			this.currentNumber = 0;
 		}
 
 		private void Compute()
 		{
-			switch (this.sign)
+			char chr = this.sign;
+			switch (chr)
 			{
 				case '*':
+				{
 					this.currentTotal *= this.currentNumber;
 					break;
-
+				}
 				case '+':
+				{
 					this.currentTotal += this.currentNumber;
 					break;
-
+				}
+				case ',':
+				case '.':
+				{
+					this.currentTotal = this.currentNumber;
+					break;
+				}
 				case '-':
+				{
 					this.currentTotal -= this.currentNumber;
 					break;
-
+				}
 				case '/':
-					if (this.currentNumber == 0.0)
+				{
+					if (this.currentNumber == 0)
 					{
-						this.currentTotal = 0.0;
+						this.currentTotal = 0;
+						break;
 					}
 					else
 					{
 						this.currentTotal /= this.currentNumber;
+						break;
 					}
-					break;
-
-				case '=':
-					break;
-
+				}
 				default:
-					this.currentTotal = this.currentNumber;
-					break;
+				{
+					if (chr == '=')
+					{
+						break;
+					}
+					goto case '.';
+				}
 			}
 			this.showTotal = true;
 		}
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (this.components != null))
+			if (disposing && this.components != null)
 			{
 				this.components.Dispose();
 			}
@@ -270,8 +306,8 @@ namespace smartRestaurant.Utils
 
 		private void InitializeComponent()
 		{
-			this.components = new Container();
-			ResourceManager manager = new ResourceManager(typeof(CalculatorForm));
+			this.components = new System.ComponentModel.Container();
+			ResourceManager resourceManager = new ResourceManager(typeof(CalculatorForm));
 			this.NumberImgList = new ImageList(this.components);
 			this.BtnNo1 = new ImageButton();
 			this.BtnNo3 = new ImageButton();
@@ -298,23 +334,23 @@ namespace smartRestaurant.Utils
 			this.ButtonLiteImgList = new ImageList(this.components);
 			base.SuspendLayout();
 			this.NumberImgList.ColorDepth = ColorDepth.Depth32Bit;
-			this.NumberImgList.ImageSize = new Size(0x48, 60);
-			this.NumberImgList.ImageStream = (ImageListStreamer) manager.GetObject("NumberImgList.ImageStream");
+			this.NumberImgList.ImageSize = new System.Drawing.Size(72, 60);
+			this.NumberImgList.ImageStream = (ImageListStreamer)resourceManager.GetObject("NumberImgList.ImageStream");
 			this.NumberImgList.TransparentColor = Color.Transparent;
 			this.BtnNo1.BackColor = Color.Transparent;
 			this.BtnNo1.Blue = 1f;
 			this.BtnNo1.Cursor = Cursors.Hand;
-			this.BtnNo1.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo1.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo1.Green = 1f;
-			this.BtnNo1.ImageClick = (Image) manager.GetObject("BtnNo1.ImageClick");
+			this.BtnNo1.ImageClick = (Image)resourceManager.GetObject("BtnNo1.ImageClick");
 			this.BtnNo1.ImageClickIndex = 1;
 			this.BtnNo1.ImageIndex = 0;
 			this.BtnNo1.ImageList = this.NumberImgList;
-			this.BtnNo1.Location = new Point(80, 0xd8);
+			this.BtnNo1.Location = new Point(80, 216);
 			this.BtnNo1.Name = "BtnNo1";
 			this.BtnNo1.ObjectValue = null;
 			this.BtnNo1.Red = 2f;
-			this.BtnNo1.Size = new Size(0x48, 60);
+			this.BtnNo1.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo1.TabIndex = 0;
 			this.BtnNo1.Text = "1";
 			this.BtnNo1.TextAlign = ContentAlignment.MiddleCenter;
@@ -323,17 +359,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo3.BackColor = Color.Transparent;
 			this.BtnNo3.Blue = 1f;
 			this.BtnNo3.Cursor = Cursors.Hand;
-			this.BtnNo3.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo3.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo3.Green = 1f;
-			this.BtnNo3.ImageClick = (Image) manager.GetObject("BtnNo3.ImageClick");
+			this.BtnNo3.ImageClick = (Image)resourceManager.GetObject("BtnNo3.ImageClick");
 			this.BtnNo3.ImageClickIndex = 1;
 			this.BtnNo3.ImageIndex = 0;
 			this.BtnNo3.ImageList = this.NumberImgList;
-			this.BtnNo3.Location = new Point(0xe0, 0xd8);
+			this.BtnNo3.Location = new Point(224, 216);
 			this.BtnNo3.Name = "BtnNo3";
 			this.BtnNo3.ObjectValue = null;
 			this.BtnNo3.Red = 2f;
-			this.BtnNo3.Size = new Size(0x48, 60);
+			this.BtnNo3.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo3.TabIndex = 1;
 			this.BtnNo3.Text = "3";
 			this.BtnNo3.TextAlign = ContentAlignment.MiddleCenter;
@@ -342,17 +378,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo2.BackColor = Color.Transparent;
 			this.BtnNo2.Blue = 1f;
 			this.BtnNo2.Cursor = Cursors.Hand;
-			this.BtnNo2.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo2.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo2.Green = 1f;
-			this.BtnNo2.ImageClick = (Image) manager.GetObject("BtnNo2.ImageClick");
+			this.BtnNo2.ImageClick = (Image)resourceManager.GetObject("BtnNo2.ImageClick");
 			this.BtnNo2.ImageClickIndex = 1;
 			this.BtnNo2.ImageIndex = 0;
 			this.BtnNo2.ImageList = this.NumberImgList;
-			this.BtnNo2.Location = new Point(0x98, 0xd8);
+			this.BtnNo2.Location = new Point(152, 216);
 			this.BtnNo2.Name = "BtnNo2";
 			this.BtnNo2.ObjectValue = null;
 			this.BtnNo2.Red = 2f;
-			this.BtnNo2.Size = new Size(0x48, 60);
+			this.BtnNo2.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo2.TabIndex = 2;
 			this.BtnNo2.Text = "2";
 			this.BtnNo2.TextAlign = ContentAlignment.MiddleCenter;
@@ -361,17 +397,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo5.BackColor = Color.Transparent;
 			this.BtnNo5.Blue = 1f;
 			this.BtnNo5.Cursor = Cursors.Hand;
-			this.BtnNo5.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo5.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo5.Green = 1f;
-			this.BtnNo5.ImageClick = (Image) manager.GetObject("BtnNo5.ImageClick");
+			this.BtnNo5.ImageClick = (Image)resourceManager.GetObject("BtnNo5.ImageClick");
 			this.BtnNo5.ImageClickIndex = 1;
 			this.BtnNo5.ImageIndex = 0;
 			this.BtnNo5.ImageList = this.NumberImgList;
-			this.BtnNo5.Location = new Point(0x98, 0x98);
+			this.BtnNo5.Location = new Point(152, 152);
 			this.BtnNo5.Name = "BtnNo5";
 			this.BtnNo5.ObjectValue = null;
 			this.BtnNo5.Red = 2f;
-			this.BtnNo5.Size = new Size(0x48, 60);
+			this.BtnNo5.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo5.TabIndex = 5;
 			this.BtnNo5.Text = "5";
 			this.BtnNo5.TextAlign = ContentAlignment.MiddleCenter;
@@ -380,17 +416,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo6.BackColor = Color.Transparent;
 			this.BtnNo6.Blue = 1f;
 			this.BtnNo6.Cursor = Cursors.Hand;
-			this.BtnNo6.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo6.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo6.Green = 1f;
-			this.BtnNo6.ImageClick = (Image) manager.GetObject("BtnNo6.ImageClick");
+			this.BtnNo6.ImageClick = (Image)resourceManager.GetObject("BtnNo6.ImageClick");
 			this.BtnNo6.ImageClickIndex = 1;
 			this.BtnNo6.ImageIndex = 0;
 			this.BtnNo6.ImageList = this.NumberImgList;
-			this.BtnNo6.Location = new Point(0xe0, 0x98);
+			this.BtnNo6.Location = new Point(224, 152);
 			this.BtnNo6.Name = "BtnNo6";
 			this.BtnNo6.ObjectValue = null;
 			this.BtnNo6.Red = 2f;
-			this.BtnNo6.Size = new Size(0x48, 60);
+			this.BtnNo6.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo6.TabIndex = 4;
 			this.BtnNo6.Text = "6";
 			this.BtnNo6.TextAlign = ContentAlignment.MiddleCenter;
@@ -399,17 +435,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo4.BackColor = Color.Transparent;
 			this.BtnNo4.Blue = 1f;
 			this.BtnNo4.Cursor = Cursors.Hand;
-			this.BtnNo4.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo4.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo4.Green = 1f;
-			this.BtnNo4.ImageClick = (Image) manager.GetObject("BtnNo4.ImageClick");
+			this.BtnNo4.ImageClick = (Image)resourceManager.GetObject("BtnNo4.ImageClick");
 			this.BtnNo4.ImageClickIndex = 1;
 			this.BtnNo4.ImageIndex = 0;
 			this.BtnNo4.ImageList = this.NumberImgList;
-			this.BtnNo4.Location = new Point(80, 0x98);
+			this.BtnNo4.Location = new Point(80, 152);
 			this.BtnNo4.Name = "BtnNo4";
 			this.BtnNo4.ObjectValue = null;
 			this.BtnNo4.Red = 2f;
-			this.BtnNo4.Size = new Size(0x48, 60);
+			this.BtnNo4.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo4.TabIndex = 3;
 			this.BtnNo4.Text = "4";
 			this.BtnNo4.TextAlign = ContentAlignment.MiddleCenter;
@@ -418,17 +454,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo8.BackColor = Color.Transparent;
 			this.BtnNo8.Blue = 1f;
 			this.BtnNo8.Cursor = Cursors.Hand;
-			this.BtnNo8.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo8.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo8.Green = 1f;
-			this.BtnNo8.ImageClick = (Image) manager.GetObject("BtnNo8.ImageClick");
+			this.BtnNo8.ImageClick = (Image)resourceManager.GetObject("BtnNo8.ImageClick");
 			this.BtnNo8.ImageClickIndex = 1;
 			this.BtnNo8.ImageIndex = 0;
 			this.BtnNo8.ImageList = this.NumberImgList;
-			this.BtnNo8.Location = new Point(0x98, 0x58);
+			this.BtnNo8.Location = new Point(152, 88);
 			this.BtnNo8.Name = "BtnNo8";
 			this.BtnNo8.ObjectValue = null;
 			this.BtnNo8.Red = 2f;
-			this.BtnNo8.Size = new Size(0x48, 60);
+			this.BtnNo8.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo8.TabIndex = 8;
 			this.BtnNo8.Text = "8";
 			this.BtnNo8.TextAlign = ContentAlignment.MiddleCenter;
@@ -437,17 +473,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo9.BackColor = Color.Transparent;
 			this.BtnNo9.Blue = 1f;
 			this.BtnNo9.Cursor = Cursors.Hand;
-			this.BtnNo9.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo9.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo9.Green = 1f;
-			this.BtnNo9.ImageClick = (Image) manager.GetObject("BtnNo9.ImageClick");
+			this.BtnNo9.ImageClick = (Image)resourceManager.GetObject("BtnNo9.ImageClick");
 			this.BtnNo9.ImageClickIndex = 1;
 			this.BtnNo9.ImageIndex = 0;
 			this.BtnNo9.ImageList = this.NumberImgList;
-			this.BtnNo9.Location = new Point(0xe0, 0x58);
+			this.BtnNo9.Location = new Point(224, 88);
 			this.BtnNo9.Name = "BtnNo9";
 			this.BtnNo9.ObjectValue = null;
 			this.BtnNo9.Red = 2f;
-			this.BtnNo9.Size = new Size(0x48, 60);
+			this.BtnNo9.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo9.TabIndex = 7;
 			this.BtnNo9.Text = "9";
 			this.BtnNo9.TextAlign = ContentAlignment.MiddleCenter;
@@ -456,17 +492,17 @@ namespace smartRestaurant.Utils
 			this.BtnNo7.BackColor = Color.Transparent;
 			this.BtnNo7.Blue = 1f;
 			this.BtnNo7.Cursor = Cursors.Hand;
-			this.BtnNo7.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo7.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo7.Green = 1f;
-			this.BtnNo7.ImageClick = (Image) manager.GetObject("BtnNo7.ImageClick");
+			this.BtnNo7.ImageClick = (Image)resourceManager.GetObject("BtnNo7.ImageClick");
 			this.BtnNo7.ImageClickIndex = 1;
 			this.BtnNo7.ImageIndex = 0;
 			this.BtnNo7.ImageList = this.NumberImgList;
-			this.BtnNo7.Location = new Point(80, 0x58);
+			this.BtnNo7.Location = new Point(80, 88);
 			this.BtnNo7.Name = "BtnNo7";
 			this.BtnNo7.ObjectValue = null;
 			this.BtnNo7.Red = 2f;
-			this.BtnNo7.Size = new Size(0x48, 60);
+			this.BtnNo7.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo7.TabIndex = 6;
 			this.BtnNo7.Text = "7";
 			this.BtnNo7.TextAlign = ContentAlignment.MiddleCenter;
@@ -475,9 +511,9 @@ namespace smartRestaurant.Utils
 			this.BtnNo0.BackColor = Color.Transparent;
 			this.BtnNo0.Blue = 1f;
 			this.BtnNo0.Cursor = Cursors.Hand;
-			this.BtnNo0.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnNo0.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnNo0.Green = 1f;
-			this.BtnNo0.ImageClick = (Image) manager.GetObject("BtnNo0.ImageClick");
+			this.BtnNo0.ImageClick = (Image)resourceManager.GetObject("BtnNo0.ImageClick");
 			this.BtnNo0.ImageClickIndex = 1;
 			this.BtnNo0.ImageIndex = 0;
 			this.BtnNo0.ImageList = this.NumberImgList;
@@ -485,7 +521,7 @@ namespace smartRestaurant.Utils
 			this.BtnNo0.Name = "BtnNo0";
 			this.BtnNo0.ObjectValue = null;
 			this.BtnNo0.Red = 2f;
-			this.BtnNo0.Size = new Size(0x48, 60);
+			this.BtnNo0.Size = new System.Drawing.Size(72, 60);
 			this.BtnNo0.TabIndex = 9;
 			this.BtnNo0.Text = "0";
 			this.BtnNo0.TextAlign = ContentAlignment.MiddleCenter;
@@ -494,17 +530,17 @@ namespace smartRestaurant.Utils
 			this.BtnDot.BackColor = Color.Transparent;
 			this.BtnDot.Blue = 1f;
 			this.BtnDot.Cursor = Cursors.Hand;
-			this.BtnDot.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnDot.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnDot.Green = 2f;
-			this.BtnDot.ImageClick = (Image) manager.GetObject("BtnDot.ImageClick");
+			this.BtnDot.ImageClick = (Image)resourceManager.GetObject("BtnDot.ImageClick");
 			this.BtnDot.ImageClickIndex = 1;
 			this.BtnDot.ImageIndex = 0;
 			this.BtnDot.ImageList = this.NumberImgList;
-			this.BtnDot.Location = new Point(0x98, 280);
+			this.BtnDot.Location = new Point(152, 280);
 			this.BtnDot.Name = "BtnDot";
 			this.BtnDot.ObjectValue = null;
 			this.BtnDot.Red = 2f;
-			this.BtnDot.Size = new Size(0x48, 60);
+			this.BtnDot.Size = new System.Drawing.Size(72, 60);
 			this.BtnDot.TabIndex = 10;
 			this.BtnDot.Text = ".";
 			this.BtnDot.TextAlign = ContentAlignment.MiddleCenter;
@@ -513,17 +549,17 @@ namespace smartRestaurant.Utils
 			this.BtnEqual.BackColor = Color.Transparent;
 			this.BtnEqual.Blue = 1f;
 			this.BtnEqual.Cursor = Cursors.Hand;
-			this.BtnEqual.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnEqual.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnEqual.Green = 2f;
-			this.BtnEqual.ImageClick = (Image) manager.GetObject("BtnEqual.ImageClick");
+			this.BtnEqual.ImageClick = (Image)resourceManager.GetObject("BtnEqual.ImageClick");
 			this.BtnEqual.ImageClickIndex = 1;
 			this.BtnEqual.ImageIndex = 0;
 			this.BtnEqual.ImageList = this.NumberImgList;
-			this.BtnEqual.Location = new Point(0xe0, 280);
+			this.BtnEqual.Location = new Point(224, 280);
 			this.BtnEqual.Name = "BtnEqual";
 			this.BtnEqual.ObjectValue = null;
 			this.BtnEqual.Red = 2f;
-			this.BtnEqual.Size = new Size(0x48, 60);
+			this.BtnEqual.Size = new System.Drawing.Size(72, 60);
 			this.BtnEqual.TabIndex = 11;
 			this.BtnEqual.Text = "=";
 			this.BtnEqual.TextAlign = ContentAlignment.MiddleCenter;
@@ -532,17 +568,17 @@ namespace smartRestaurant.Utils
 			this.BtnMultiple.BackColor = Color.Transparent;
 			this.BtnMultiple.Blue = 1f;
 			this.BtnMultiple.Cursor = Cursors.Hand;
-			this.BtnMultiple.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnMultiple.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnMultiple.Green = 2f;
-			this.BtnMultiple.ImageClick = (Image) manager.GetObject("BtnMultiple.ImageClick");
+			this.BtnMultiple.ImageClick = (Image)resourceManager.GetObject("BtnMultiple.ImageClick");
 			this.BtnMultiple.ImageClickIndex = 1;
 			this.BtnMultiple.ImageIndex = 0;
 			this.BtnMultiple.ImageList = this.NumberImgList;
-			this.BtnMultiple.Location = new Point(0x128, 0x58);
+			this.BtnMultiple.Location = new Point(296, 88);
 			this.BtnMultiple.Name = "BtnMultiple";
 			this.BtnMultiple.ObjectValue = null;
 			this.BtnMultiple.Red = 2f;
-			this.BtnMultiple.Size = new Size(0x48, 60);
+			this.BtnMultiple.Size = new System.Drawing.Size(72, 60);
 			this.BtnMultiple.TabIndex = 12;
 			this.BtnMultiple.Text = "x";
 			this.BtnMultiple.TextAlign = ContentAlignment.MiddleCenter;
@@ -551,17 +587,17 @@ namespace smartRestaurant.Utils
 			this.BtnDivide.BackColor = Color.Transparent;
 			this.BtnDivide.Blue = 1f;
 			this.BtnDivide.Cursor = Cursors.Hand;
-			this.BtnDivide.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnDivide.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnDivide.Green = 2f;
-			this.BtnDivide.ImageClick = (Image) manager.GetObject("BtnDivide.ImageClick");
+			this.BtnDivide.ImageClick = (Image)resourceManager.GetObject("BtnDivide.ImageClick");
 			this.BtnDivide.ImageClickIndex = 1;
 			this.BtnDivide.ImageIndex = 0;
 			this.BtnDivide.ImageList = this.NumberImgList;
-			this.BtnDivide.Location = new Point(0x128, 0x98);
+			this.BtnDivide.Location = new Point(296, 152);
 			this.BtnDivide.Name = "BtnDivide";
 			this.BtnDivide.ObjectValue = null;
 			this.BtnDivide.Red = 2f;
-			this.BtnDivide.Size = new Size(0x48, 60);
+			this.BtnDivide.Size = new System.Drawing.Size(72, 60);
 			this.BtnDivide.TabIndex = 13;
 			this.BtnDivide.Text = "/";
 			this.BtnDivide.TextAlign = ContentAlignment.MiddleCenter;
@@ -570,17 +606,17 @@ namespace smartRestaurant.Utils
 			this.BtnPlus.BackColor = Color.Transparent;
 			this.BtnPlus.Blue = 1f;
 			this.BtnPlus.Cursor = Cursors.Hand;
-			this.BtnPlus.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnPlus.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnPlus.Green = 2f;
-			this.BtnPlus.ImageClick = (Image) manager.GetObject("BtnPlus.ImageClick");
+			this.BtnPlus.ImageClick = (Image)resourceManager.GetObject("BtnPlus.ImageClick");
 			this.BtnPlus.ImageClickIndex = 1;
 			this.BtnPlus.ImageIndex = 0;
 			this.BtnPlus.ImageList = this.NumberImgList;
-			this.BtnPlus.Location = new Point(0x128, 0xd8);
+			this.BtnPlus.Location = new Point(296, 216);
 			this.BtnPlus.Name = "BtnPlus";
 			this.BtnPlus.ObjectValue = null;
 			this.BtnPlus.Red = 2f;
-			this.BtnPlus.Size = new Size(0x48, 60);
+			this.BtnPlus.Size = new System.Drawing.Size(72, 60);
 			this.BtnPlus.TabIndex = 14;
 			this.BtnPlus.Text = "+";
 			this.BtnPlus.TextAlign = ContentAlignment.MiddleCenter;
@@ -589,17 +625,17 @@ namespace smartRestaurant.Utils
 			this.BtnMinus.BackColor = Color.Transparent;
 			this.BtnMinus.Blue = 1f;
 			this.BtnMinus.Cursor = Cursors.Hand;
-			this.BtnMinus.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnMinus.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnMinus.Green = 2f;
-			this.BtnMinus.ImageClick = (Image) manager.GetObject("BtnMinus.ImageClick");
+			this.BtnMinus.ImageClick = (Image)resourceManager.GetObject("BtnMinus.ImageClick");
 			this.BtnMinus.ImageClickIndex = 1;
 			this.BtnMinus.ImageIndex = 0;
 			this.BtnMinus.ImageList = this.NumberImgList;
-			this.BtnMinus.Location = new Point(0x128, 280);
+			this.BtnMinus.Location = new Point(296, 280);
 			this.BtnMinus.Name = "BtnMinus";
 			this.BtnMinus.ObjectValue = null;
 			this.BtnMinus.Red = 2f;
-			this.BtnMinus.Size = new Size(0x48, 60);
+			this.BtnMinus.Size = new System.Drawing.Size(72, 60);
 			this.BtnMinus.TabIndex = 15;
 			this.BtnMinus.Text = "-";
 			this.BtnMinus.TextAlign = ContentAlignment.MiddleCenter;
@@ -608,18 +644,18 @@ namespace smartRestaurant.Utils
 			this.BtnBackspace.BackColor = Color.Transparent;
 			this.BtnBackspace.Blue = 2f;
 			this.BtnBackspace.Cursor = Cursors.Hand;
-			this.BtnBackspace.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnBackspace.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnBackspace.Green = 2f;
-			this.BtnBackspace.ImageClick = (Image) manager.GetObject("BtnBackspace.ImageClick");
+			this.BtnBackspace.ImageClick = (Image)resourceManager.GetObject("BtnBackspace.ImageClick");
 			this.BtnBackspace.ImageClickIndex = 1;
 			this.BtnBackspace.ImageIndex = 0;
 			this.BtnBackspace.ImageList = this.NumberImgList;
-			this.BtnBackspace.Location = new Point(8, 0xd8);
+			this.BtnBackspace.Location = new Point(8, 216);
 			this.BtnBackspace.Name = "BtnBackspace";
 			this.BtnBackspace.ObjectValue = null;
 			this.BtnBackspace.Red = 1f;
-			this.BtnBackspace.Size = new Size(0x48, 60);
-			this.BtnBackspace.TabIndex = 0x13;
+			this.BtnBackspace.Size = new System.Drawing.Size(72, 60);
+			this.BtnBackspace.TabIndex = 19;
 			this.BtnBackspace.Text = "<-";
 			this.BtnBackspace.TextAlign = ContentAlignment.MiddleCenter;
 			this.BtnBackspace.Click += new EventHandler(this.BtnFunction_Click);
@@ -627,18 +663,18 @@ namespace smartRestaurant.Utils
 			this.BtnCurrentClear.BackColor = Color.Transparent;
 			this.BtnCurrentClear.Blue = 2f;
 			this.BtnCurrentClear.Cursor = Cursors.Hand;
-			this.BtnCurrentClear.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnCurrentClear.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnCurrentClear.Green = 2f;
-			this.BtnCurrentClear.ImageClick = (Image) manager.GetObject("BtnCurrentClear.ImageClick");
+			this.BtnCurrentClear.ImageClick = (Image)resourceManager.GetObject("BtnCurrentClear.ImageClick");
 			this.BtnCurrentClear.ImageClickIndex = 1;
 			this.BtnCurrentClear.ImageIndex = 0;
 			this.BtnCurrentClear.ImageList = this.NumberImgList;
-			this.BtnCurrentClear.Location = new Point(8, 0x58);
+			this.BtnCurrentClear.Location = new Point(8, 88);
 			this.BtnCurrentClear.Name = "BtnCurrentClear";
 			this.BtnCurrentClear.ObjectValue = null;
 			this.BtnCurrentClear.Red = 1f;
-			this.BtnCurrentClear.Size = new Size(0x48, 60);
-			this.BtnCurrentClear.TabIndex = 0x12;
+			this.BtnCurrentClear.Size = new System.Drawing.Size(72, 60);
+			this.BtnCurrentClear.TabIndex = 18;
 			this.BtnCurrentClear.Text = "CE";
 			this.BtnCurrentClear.TextAlign = ContentAlignment.MiddleCenter;
 			this.BtnCurrentClear.Click += new EventHandler(this.BtnFunction_Click);
@@ -646,18 +682,18 @@ namespace smartRestaurant.Utils
 			this.BtnClear.BackColor = Color.Transparent;
 			this.BtnClear.Blue = 2f;
 			this.BtnClear.Cursor = Cursors.Hand;
-			this.BtnClear.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnClear.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnClear.Green = 2f;
-			this.BtnClear.ImageClick = (Image) manager.GetObject("BtnClear.ImageClick");
+			this.BtnClear.ImageClick = (Image)resourceManager.GetObject("BtnClear.ImageClick");
 			this.BtnClear.ImageClickIndex = 1;
 			this.BtnClear.ImageIndex = 0;
 			this.BtnClear.ImageList = this.NumberImgList;
-			this.BtnClear.Location = new Point(8, 0x98);
+			this.BtnClear.Location = new Point(8, 152);
 			this.BtnClear.Name = "BtnClear";
 			this.BtnClear.ObjectValue = null;
 			this.BtnClear.Red = 1f;
-			this.BtnClear.Size = new Size(0x48, 60);
-			this.BtnClear.TabIndex = 0x11;
+			this.BtnClear.Size = new System.Drawing.Size(72, 60);
+			this.BtnClear.TabIndex = 17;
 			this.BtnClear.Text = "C";
 			this.BtnClear.TextAlign = ContentAlignment.MiddleCenter;
 			this.BtnClear.Click += new EventHandler(this.BtnFunction_Click);
@@ -665,9 +701,9 @@ namespace smartRestaurant.Utils
 			this.BtnSwitch.BackColor = Color.Transparent;
 			this.BtnSwitch.Blue = 1f;
 			this.BtnSwitch.Cursor = Cursors.Hand;
-			this.BtnSwitch.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnSwitch.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnSwitch.Green = 2f;
-			this.BtnSwitch.ImageClick = (Image) manager.GetObject("BtnSwitch.ImageClick");
+			this.BtnSwitch.ImageClick = (Image)resourceManager.GetObject("BtnSwitch.ImageClick");
 			this.BtnSwitch.ImageClickIndex = 1;
 			this.BtnSwitch.ImageIndex = 0;
 			this.BtnSwitch.ImageList = this.NumberImgList;
@@ -675,46 +711,46 @@ namespace smartRestaurant.Utils
 			this.BtnSwitch.Name = "BtnSwitch";
 			this.BtnSwitch.ObjectValue = null;
 			this.BtnSwitch.Red = 2f;
-			this.BtnSwitch.Size = new Size(0x48, 60);
-			this.BtnSwitch.TabIndex = 0x10;
+			this.BtnSwitch.Size = new System.Drawing.Size(72, 60);
+			this.BtnSwitch.TabIndex = 16;
 			this.BtnSwitch.Text = "+/-";
 			this.BtnSwitch.TextAlign = ContentAlignment.MiddleCenter;
 			this.BtnSwitch.Click += new EventHandler(this.BtnFunction_Click);
 			this.BtnSwitch.DoubleClick += new EventHandler(this.BtnFunction_Click);
-			this.FieldNumber.BackColor = Color.FromArgb(0xff, 0xff, 0xc0);
+			this.FieldNumber.BackColor = Color.FromArgb(255, 255, 192);
 			this.FieldNumber.BorderStyle = BorderStyle.FixedSingle;
 			this.FieldNumber.Cursor = Cursors.Hand;
-			this.FieldNumber.Font = new Font("Tahoma", 20.25f, FontStyle.Regular, GraphicsUnit.Point, 0xde);
+			this.FieldNumber.Font = new System.Drawing.Font("Tahoma", 20.25f, FontStyle.Regular, GraphicsUnit.Point, 222);
 			this.FieldNumber.Location = new Point(8, 40);
 			this.FieldNumber.Name = "FieldNumber";
-			this.FieldNumber.Size = new Size(0xf8, 40);
-			this.FieldNumber.TabIndex = 0x29;
+			this.FieldNumber.Size = new System.Drawing.Size(248, 40);
+			this.FieldNumber.TabIndex = 41;
 			this.FieldNumber.TextAlign = ContentAlignment.MiddleRight;
 			this.BtnClose.BackColor = Color.Transparent;
 			this.BtnClose.Blue = 2f;
 			this.BtnClose.Cursor = Cursors.Hand;
-			this.BtnClose.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
+			this.BtnClose.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
 			this.BtnClose.Green = 2f;
-			this.BtnClose.ImageClick = (Image) manager.GetObject("BtnClose.ImageClick");
+			this.BtnClose.ImageClick = (Image)resourceManager.GetObject("BtnClose.ImageClick");
 			this.BtnClose.ImageClickIndex = 1;
 			this.BtnClose.ImageIndex = 0;
 			this.BtnClose.ImageList = this.ButtonLiteImgList;
-			this.BtnClose.Location = new Point(0x101, 40);
+			this.BtnClose.Location = new Point(257, 40);
 			this.BtnClose.Name = "BtnClose";
 			this.BtnClose.ObjectValue = null;
 			this.BtnClose.Red = 1f;
-			this.BtnClose.Size = new Size(0x70, 40);
-			this.BtnClose.TabIndex = 0x2a;
+			this.BtnClose.Size = new System.Drawing.Size(112, 40);
+			this.BtnClose.TabIndex = 42;
 			this.BtnClose.Text = "Close";
 			this.BtnClose.TextAlign = ContentAlignment.MiddleCenter;
 			this.BtnClose.Click += new EventHandler(this.BtnClose_Click);
 			this.ButtonLiteImgList.ColorDepth = ColorDepth.Depth32Bit;
-			this.ButtonLiteImgList.ImageSize = new Size(110, 40);
-			this.ButtonLiteImgList.ImageStream = (ImageListStreamer) manager.GetObject("ButtonLiteImgList.ImageStream");
+			this.ButtonLiteImgList.ImageSize = new System.Drawing.Size(110, 40);
+			this.ButtonLiteImgList.ImageStream = (ImageListStreamer)resourceManager.GetObject("ButtonLiteImgList.ImageStream");
 			this.ButtonLiteImgList.TransparentColor = Color.Transparent;
-			this.AutoScaleBaseSize = new Size(9, 20);
+			this.AutoScaleBaseSize = new System.Drawing.Size(9, 20);
 			this.BackColor = Color.White;
-			base.ClientSize = new Size(0x178, 0x160);
+			base.ClientSize = new System.Drawing.Size(376, 352);
 			base.Controls.Add(this.BtnClose);
 			base.Controls.Add(this.FieldNumber);
 			base.Controls.Add(this.BtnBackspace);
@@ -737,8 +773,8 @@ namespace smartRestaurant.Utils
 			base.Controls.Add(this.BtnNo2);
 			base.Controls.Add(this.BtnNo3);
 			base.Controls.Add(this.BtnNo1);
-			this.Font = new Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 0xde);
-			base.FormBorderStyle = FormBorderStyle.None;
+			this.Font = new System.Drawing.Font("Tahoma", 12f, FontStyle.Bold, GraphicsUnit.Point, 222);
+			base.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			base.Name = "CalculatorForm";
 			base.StartPosition = FormStartPosition.CenterParent;
 			this.Text = "Calculator";
@@ -748,69 +784,58 @@ namespace smartRestaurant.Utils
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			Graphics graphics = pe.Graphics;
-			Rectangle rect = new Rectangle(0, 0, base.Width, 0x1d);
-			LinearGradientBrush brush = new LinearGradientBrush(rect, Color.FromArgb(0x67, 0x8a, 0xc6), Color.White, 90f);
-			graphics.FillRectangle(brush, rect);
-			rect = new Rectangle(0, 30, base.Width, base.Height - 30);
-			brush = new LinearGradientBrush(rect, Color.FromArgb(230, 230, 230), Color.White, 180f);
-			graphics.FillRectangle(brush, rect);
+			Rectangle rectangle = new Rectangle(0, 0, base.Width, 29);
+			LinearGradientBrush linearGradientBrush = new LinearGradientBrush(rectangle, Color.FromArgb(103, 138, 198), Color.White, 90f);
+			graphics.FillRectangle(linearGradientBrush, rectangle);
+			rectangle = new Rectangle(0, 30, base.Width, base.Height - 30);
+			linearGradientBrush = new LinearGradientBrush(rectangle, Color.FromArgb(230, 230, 230), Color.White, 180f);
+			graphics.FillRectangle(linearGradientBrush, rectangle);
 			Pen pen = new Pen(Color.FromArgb(180, 180, 180));
-			graphics.DrawLine(pen, 0, 0x1d, base.Width - 1, 0x1d);
+			graphics.DrawLine(pen, 0, 29, base.Width - 1, 29);
 			graphics.DrawRectangle(pen, 0, 0, base.Width - 1, base.Height - 1);
-			graphics.DrawString(this.Text, this.Font, Brushes.Black, (float) 15f, (float) 4f);
+			graphics.DrawString(this.Text, this.Font, Brushes.Black, 15f, 4f);
 			base.OnPaint(pe);
 		}
 
 		public static void Show(bool clear)
 		{
-			if (instance == null)
+			if (CalculatorForm.instance == null)
 			{
-				instance = new CalculatorForm();
+				CalculatorForm.instance = new CalculatorForm();
 			}
 			if (clear)
 			{
-				instance.ClearAll();
-				instance.ShowDialog();
+				CalculatorForm.instance.ClearAll();
+				CalculatorForm.instance.ShowDialog();
 			}
 		}
 
 		private void ShowNumber()
 		{
-			double currentTotal;
-			int num2;
-			if (this.showTotal)
+			double num;
+			int num1;
+			if (!this.showTotal)
 			{
-				currentTotal = this.currentTotal;
-				num2 = 0;
+				num = this.currentNumber;
+				num1 = (this.currentDot <= 1 ? 0 : (int)Math.Log10(this.currentDot) - 1);
+			}
+			else
+			{
+				num = this.currentTotal;
+				num1 = 0;
 				this.showTotal = false;
 			}
-			else
+			if (num1 <= 0)
 			{
-				currentTotal = this.currentNumber;
-				if (this.currentDot > 1.0)
-				{
-					num2 = ((int) Math.Log10(this.currentDot)) - 1;
-				}
-				else
-				{
-					num2 = 0;
-				}
+				this.FieldNumber.Text = num.ToString();
+				return;
 			}
-			if (num2 > 0)
+			string str = "0.";
+			for (int i = 0; i < num1; i++)
 			{
-				string format = "0.";
-				for (int i = 0; i < num2; i++)
-				{
-					format = format + "0";
-				}
-				this.FieldNumber.Text = currentTotal.ToString(format);
+				str = string.Concat(str, "0");
 			}
-			else
-			{
-				this.FieldNumber.Text = currentTotal.ToString();
-			}
+			this.FieldNumber.Text = num.ToString(str);
 		}
 	}
-
-
 }

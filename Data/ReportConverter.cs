@@ -1,46 +1,43 @@
+using smartRestaurant.BusinessService;
 using System;
 using System.Data;
-using smartRestaurant.BusinessService;
 
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for ReportConverter.
-	/// </summary>
 	public class ReportConverter
 	{
-		// Methods
+		public ReportConverter()
+		{
+		}
+
 		public static DataTable Convert(DataStream[] dStream)
 		{
 			if (dStream == null)
 			{
 				return null;
 			}
-			DataTable table = new DataTable();
-			DataRow row = null;
-			for (int i = 0; i < dStream.Length; i++)
+			DataTable dataTable = new DataTable();
+			DataRow column = null;
+			for (int i = 0; i < (int)dStream.Length; i++)
 			{
-				for (int j = 0; j < dStream[i].Column.Length; j++)
+				for (int j = 0; j < (int)dStream[i].Column.Length; j++)
 				{
-					if (i == 0)
-					{
-						table.Columns.Add(dStream[i].Column[j], typeof(string));
-					}
-					else
+					if (i != 0)
 					{
 						if (j == 0)
 						{
-							row = table.NewRow();
-							table.Rows.Add(row);
+							column = dataTable.NewRow();
+							dataTable.Rows.Add(column);
 						}
-						row[j] = dStream[i].Column[j];
+						column[j] = dStream[i].Column[j];
+					}
+					else
+					{
+						dataTable.Columns.Add(dStream[i].Column[j], typeof(string));
 					}
 				}
 			}
-			return table;
+			return dataTable;
 		}
 	}
-
- 
-
 }

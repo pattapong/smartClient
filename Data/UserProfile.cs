@@ -1,54 +1,22 @@
-using System;
 using smartRestaurant.UserAuthorizeService;
+using System;
 
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for UserProfile.
-	/// </summary>
 	public class UserProfile
 	{
-		// Fields
-		private static int AUDITOR_TYPE_ID = 2;
-		private static int EMPLOYEE_TYPE_ID = 100;
-		private int empTypeID;
-		private static int MANAGER_TYPE_ID = 1;
+		private static int MANAGER_TYPE_ID;
+
+		private static int AUDITOR_TYPE_ID;
+
+		private static int EMPLOYEE_TYPE_ID;
+
 		private int userID;
+
 		private string userName;
 
-		// Methods
-		public UserProfile(int userID, string userName, int empTypeID)
-		{
-			this.userID = userID;
-			this.userName = userName;
-			this.empTypeID = empTypeID;
-		}
+		private int empTypeID;
 
-		public static UserProfile CheckLogin(int userID, string password)
-		{
-			UserAuthorizeService.UserAuthorizeService service = new UserAuthorizeService.UserAuthorizeService();
-			UserAuthorizeService.UserProfile user = service.CheckLogin(userID, password);
-			if (user == null)
-				return null;
-			return new UserProfile(userID, user.Name, user.EmployeeTypeID);
-		}
-
-		public static void CheckLogout(int userID)
-		{
-			new smartRestaurant.UserAuthorizeService.UserAuthorizeService().CheckLogout(userID);
-		}
-
-		public bool IsAuditor()
-		{
-			return (this.empTypeID == AUDITOR_TYPE_ID);
-		}
-
-		public bool IsManager()
-		{
-			return (this.empTypeID == MANAGER_TYPE_ID);
-		}
-
-		// Properties
 		public int EmployeeTypeID
 		{
 			get
@@ -72,6 +40,44 @@ namespace smartRestaurant.Data
 				return this.userName;
 			}
 		}
-	}
 
+		static UserProfile()
+		{
+			smartRestaurant.Data.UserProfile.MANAGER_TYPE_ID = 1;
+			smartRestaurant.Data.UserProfile.AUDITOR_TYPE_ID = 2;
+			smartRestaurant.Data.UserProfile.EMPLOYEE_TYPE_ID = 100;
+		}
+
+		public UserProfile(int userID, string userName, int empTypeID)
+		{
+			this.userID = userID;
+			this.userName = userName;
+			this.empTypeID = empTypeID;
+		}
+
+		public static smartRestaurant.Data.UserProfile CheckLogin(int userID, string password)
+		{
+			smartRestaurant.UserAuthorizeService.UserProfile userProfile = (new smartRestaurant.UserAuthorizeService.UserAuthorizeService()).CheckLogin(userID, password);
+			if (userProfile == null)
+			{
+				return null;
+			}
+			return new smartRestaurant.Data.UserProfile(userID, userProfile.Name, userProfile.EmployeeTypeID);
+		}
+
+		public static void CheckLogout(int userID)
+		{
+			(new smartRestaurant.UserAuthorizeService.UserAuthorizeService()).CheckLogout(userID);
+		}
+
+		public bool IsAuditor()
+		{
+			return this.empTypeID == smartRestaurant.Data.UserProfile.AUDITOR_TYPE_ID;
+		}
+
+		public bool IsManager()
+		{
+			return this.empTypeID == smartRestaurant.Data.UserProfile.MANAGER_TYPE_ID;
+		}
+	}
 }

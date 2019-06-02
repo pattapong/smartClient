@@ -1,48 +1,52 @@
+using smartRestaurant.CheckBillService;
 using System;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Globalization;
 
 namespace smartRestaurant.Utils
 {
-	/// <summary>
-	/// Summary description for AppParameter.
-	/// </summary>
 	public class AppParameter
 	{
-		// Fields
-		private static CultureInfo culture = null;
-		private static bool deliveryModeOnly;
 		public const int LANG_ENGLISH = 0;
-		public const int LANG_FRENCH = 2;
+
 		public const int LANG_THAI = 1;
-		private static bool loadedDeliveryModeOnly = false;
-		private static bool loadedShowOrderItemPrice = false;
-		private static bool loadedShowWaitingListButton = false;
-		private static bool loadedWaitingListEnabled = false;
-		private static int menuLanguage = -1;
-		private static DateTime minDateTime;
-		private static bool setMinDateTime = false;
-		private static bool showOrderItemPrice;
-		private static bool showWaitingListButton;
+
+		public const int LANG_FRENCH = 2;
+
+		private static bool loadedWaitingListEnabled;
+
+		private static bool loadedShowWaitingListButton;
+
+		private static bool loadedDeliveryModeOnly;
+
+		private static bool loadedShowOrderItemPrice;
+
+		private static int menuLanguage;
+
+		private static CultureInfo culture;
+
 		private static bool waitingListEnabled;
 
-		// Methods
-		public static bool IsDemo()
-		{
-			string str = ConfigurationSettings.AppSettings["Demo"];
-			return ((str != null) && (str == "1"));
-		}
+		private static bool showWaitingListButton;
 
-		// Properties
+		private static bool deliveryModeOnly;
+
+		private static bool showOrderItemPrice;
+
+		private static DateTime minDateTime;
+
+		private static bool setMinDateTime;
+
 		public static CultureInfo Culture
 		{
 			get
 			{
-				if (culture == null)
+				if (AppParameter.culture == null)
 				{
-					culture = new CultureInfo(ConfigurationSettings.AppSettings["Culture"]);
+					AppParameter.culture = new CultureInfo(ConfigurationSettings.AppSettings["Culture"]);
 				}
-				return culture;
+				return AppParameter.culture;
 			}
 		}
 
@@ -50,19 +54,21 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
+				bool flag;
 				try
 				{
-					if (!loadedDeliveryModeOnly)
+					if (!AppParameter.loadedDeliveryModeOnly)
 					{
-						deliveryModeOnly = ConfigurationSettings.AppSettings["DeliveryModeOnly"].ToUpper() == "YES";
-						loadedDeliveryModeOnly = true;
+						AppParameter.deliveryModeOnly = ConfigurationSettings.AppSettings["DeliveryModeOnly"].ToUpper() == "YES";
+						AppParameter.loadedDeliveryModeOnly = true;
 					}
-					return deliveryModeOnly;
+					flag = AppParameter.deliveryModeOnly;
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					return true;
+					flag = true;
 				}
+				return flag;
 			}
 		}
 
@@ -70,31 +76,31 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
-				if (menuLanguage < 0)
+				if (AppParameter.menuLanguage < 0)
 				{
-					string str = ConfigurationSettings.AppSettings["MenuLanguage"];
-					if (str != null)
+					string item = ConfigurationSettings.AppSettings["MenuLanguage"];
+					if (item == null)
 					{
-						str = str.ToUpper();
-						if (str == "TH")
-						{
-							menuLanguage = 1;
-						}
-						else if (str == "FR")
-						{
-							menuLanguage = 2;
-						}
-						else
-						{
-							menuLanguage = 0;
-						}
+						AppParameter.menuLanguage = 0;
 					}
 					else
 					{
-						menuLanguage = 0;
+						item = item.ToUpper();
+						if (item == "TH")
+						{
+							AppParameter.menuLanguage = 1;
+						}
+						else if (item != "FR")
+						{
+							AppParameter.menuLanguage = 0;
+						}
+						else
+						{
+							AppParameter.menuLanguage = 2;
+						}
 					}
 				}
-				return menuLanguage;
+				return AppParameter.menuLanguage;
 			}
 		}
 
@@ -102,11 +108,11 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
-				if (!setMinDateTime)
+				if (!AppParameter.setMinDateTime)
 				{
-					minDateTime = new DateTime(0x76c, 1, 1, 0, 0, 0, 0);
+					AppParameter.minDateTime = new DateTime(1900, 1, 1, 0, 0, 0, 0);
 				}
-				return minDateTime;
+				return AppParameter.minDateTime;
 			}
 		}
 
@@ -114,19 +120,21 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
+				bool flag;
 				try
 				{
-					if (!loadedShowOrderItemPrice)
+					if (!AppParameter.loadedShowOrderItemPrice)
 					{
-						showOrderItemPrice = ConfigurationSettings.AppSettings["ShowOrderItemPrice"].ToUpper() == "YES";
-						loadedShowOrderItemPrice = true;
+						AppParameter.showOrderItemPrice = ConfigurationSettings.AppSettings["ShowOrderItemPrice"].ToUpper() == "YES";
+						AppParameter.loadedShowOrderItemPrice = true;
 					}
-					return showOrderItemPrice;
+					flag = AppParameter.showOrderItemPrice;
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					return true;
+					flag = true;
 				}
+				return flag;
 			}
 		}
 
@@ -134,19 +142,21 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
+				bool flag;
 				try
 				{
-					if (!loadedShowWaitingListButton)
+					if (!AppParameter.loadedShowWaitingListButton)
 					{
-						showWaitingListButton = ConfigurationSettings.AppSettings["ShowWaitingListButton"].ToUpper() == "YES";
-						loadedShowWaitingListButton = true;
+						AppParameter.showWaitingListButton = ConfigurationSettings.AppSettings["ShowWaitingListButton"].ToUpper() == "YES";
+						AppParameter.loadedShowWaitingListButton = true;
 					}
-					return showWaitingListButton;
+					flag = AppParameter.showWaitingListButton;
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					return true;
+					flag = true;
 				}
+				return flag;
 			}
 		}
 
@@ -154,14 +164,16 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
+				string item;
 				try
 				{
-					return ConfigurationSettings.AppSettings["TableListStyle"];
+					item = ConfigurationSettings.AppSettings["TableListStyle"];
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					return "1";
+					item = "1";
 				}
+				return item;
 			}
 		}
 
@@ -169,7 +181,7 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
-				string description = new smartRestaurant.CheckBillService.CheckBillService().GetDescription("TAX1");
+				string description = (new smartRestaurant.CheckBillService.CheckBillService()).GetDescription("TAX1");
 				if (description == null)
 				{
 					return "Tax1";
@@ -182,7 +194,7 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
-				string description = new smartRestaurant.CheckBillService.CheckBillService().GetDescription("TAX2");
+				string description = (new smartRestaurant.CheckBillService.CheckBillService()).GetDescription("TAX2");
 				if (description == null)
 				{
 					return "Tax2";
@@ -195,22 +207,47 @@ namespace smartRestaurant.Utils
 		{
 			get
 			{
+				bool flag;
 				try
 				{
-					if (!loadedWaitingListEnabled)
+					if (!AppParameter.loadedWaitingListEnabled)
 					{
-						waitingListEnabled = ConfigurationSettings.AppSettings["WaitingListEnabled"].ToUpper() == "YES";
-						loadedWaitingListEnabled = true;
+						AppParameter.waitingListEnabled = ConfigurationSettings.AppSettings["WaitingListEnabled"].ToUpper() == "YES";
+						AppParameter.loadedWaitingListEnabled = true;
 					}
-					return waitingListEnabled;
+					flag = AppParameter.waitingListEnabled;
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					return true;
+					flag = true;
 				}
+				return flag;
 			}
 		}
+
+		static AppParameter()
+		{
+			AppParameter.loadedWaitingListEnabled = false;
+			AppParameter.loadedShowWaitingListButton = false;
+			AppParameter.loadedDeliveryModeOnly = false;
+			AppParameter.loadedShowOrderItemPrice = false;
+			AppParameter.menuLanguage = -1;
+			AppParameter.culture = null;
+			AppParameter.setMinDateTime = false;
+		}
+
+		public AppParameter()
+		{
+		}
+
+		public static bool IsDemo()
+		{
+			string item = ConfigurationSettings.AppSettings["Demo"];
+			if (item == null)
+			{
+				return false;
+			}
+			return item == "1";
+		}
 	}
-
-
 }

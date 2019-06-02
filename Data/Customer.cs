@@ -1,32 +1,49 @@
+using smartRestaurant.CustomerService;
 using System;
 using System.Collections;
-using smartRestaurant.CustomerService;
 
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for Customer.
-	/// </summary>
 	public class Customer
 	{
-		// Fields
-		public static Road[] roads = null;
+		public static Road[] roads;
 
-		// Methods
+		public static Road[] Roads
+		{
+			get
+			{
+				if (Customer.roads == null)
+				{
+					Customer.roads = (new smartRestaurant.CustomerService.CustomerService()).GetRoads();
+				}
+				return Customer.roads;
+			}
+		}
+
+		static Customer()
+		{
+			Customer.roads = null;
+		}
+
+		public Customer()
+		{
+		}
+
 		public static Road GetRoad(int roadID)
 		{
-			if (roads == null)
+			if (Customer.roads == null)
 			{
-				roads = new smartRestaurant.CustomerService.CustomerService().GetRoads();
+				Customer.roads = (new smartRestaurant.CustomerService.CustomerService()).GetRoads();
 			}
-			if (roads != null)
+			if (Customer.roads == null)
 			{
-				for (int i = 0; i < roads.Length; i++)
+				return null;
+			}
+			for (int i = 0; i < (int)Customer.roads.Length; i++)
+			{
+				if (Customer.roads[i].RoadID == roadID)
 				{
-					if (roads[i].RoadID == roadID)
-					{
-						return roads[i];
-					}
+					return Customer.roads[i];
 				}
 			}
 			return null;
@@ -34,39 +51,24 @@ namespace smartRestaurant.Data
 
 		public static Road[] SearchRoad(string roadName)
 		{
-			if (roads == null)
+			if (Customer.roads == null)
 			{
-				roads = new smartRestaurant.CustomerService.CustomerService().GetRoads();
+				Customer.roads = (new smartRestaurant.CustomerService.CustomerService()).GetRoads();
 			}
-			if (roads == null)
+			if (Customer.roads == null)
 			{
 				return null;
 			}
-			string str = roadName.ToUpper();
-			ArrayList list = new ArrayList();
-			for (int i = 0; i < roads.Length; i++)
+			string upper = roadName.ToUpper();
+			ArrayList arrayLists = new ArrayList();
+			for (int i = 0; i < (int)Customer.roads.Length; i++)
 			{
-				if (roads[i].RoadName.ToUpper().IndexOf(str) == 0)
+				if (Customer.roads[i].RoadName.ToUpper().IndexOf(upper) == 0)
 				{
-					list.Add(roads[i]);
+					arrayLists.Add(Customer.roads[i]);
 				}
 			}
-			return (Road[]) list.ToArray(typeof(Road));
-		}
-
-		// Properties
-		public static Road[] Roads
-		{
-			get
-			{
-				if (roads == null)
-				{
-					roads = new smartRestaurant.CustomerService.CustomerService().GetRoads();
-				}
-				return roads;
-			}
+			return (Road[])arrayLists.ToArray(typeof(Road));
 		}
 	}
-
-
 }

@@ -1,30 +1,26 @@
-using System;
-using System.Collections;
-using System.Windows.Forms;
-using smartRestaurant.UserAuthorizeService;
 using smartRestaurant.CustomerService;
-
+using System;
 
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for RoadItem.
-	/// </summary>
 	public class RoadItem
 	{
-		// Fields
-		public string AreaName;
-		public Road Object;
 		public int RoadID;
+
 		public string RoadName;
 
-		// Methods
+		public string AreaName;
+
+		public Road Object;
+
+		public RoadItem()
+		{
+		}
+
 		public override string ToString()
 		{
-			return (this.RoadName + " " + this.Object.RoadTypeName + "(" + this.AreaName + ")");
+			string[] roadName = new string[] { this.RoadName, " ", this.Object.RoadTypeName, "(", this.AreaName, ")" };
+			return string.Concat(roadName);
 		}
 	}
-
- 
-
 }

@@ -1,340 +1,61 @@
 using System;
 using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-
 
 namespace smartRestaurant.Controls
 {
 	public class ItemsList : Control
 	{
-		// Fields
-		private ContentAlignment alignment;
-		private bool autoRefresh = true;
-		private Color backAlterColor;
 		private Color backHeaderColor;
+
 		private Color backHeaderSelectedColor;
+
 		private Color backNormalColor;
+
+		private Color backAlterColor;
+
 		private Color backSelectedColor;
-		private ItemsList bindList1;
-		private ItemsList bindList2;
-		private int border = 0;
-		private Color foreAlterColor;
+
 		private Color foreHeaderColor;
+
 		private Color foreHeaderSelectedColor;
+
 		private Color foreNormalColor;
+
+		private Color foreAlterColor;
+
 		private Color foreSelectedColor;
-		private int itemHeight = 20;
-		private ArrayList items = new ArrayList();
-		private int itemStart = 0;
-		private int itemWidth = 320;
-		private Label[] labels;
-		private bool pageEnable = false;
+
+		private System.Drawing.Font strikeFont;
+
+		private ItemsList bindList1;
+
+		private ItemsList bindList2;
+
+		private int itemWidth;
+
+		private int itemHeight;
+
+		private int border;
+
 		private int row;
+
+		private Label[] labels;
+
+		private ArrayList items;
+
 		private int selectedIndex;
-		private Font strikeFont;
-		public delegate void ItemsListEventHandler(object sender, ItemsListEventArgs e);
 
-		// Events
-		public event ItemsListEventHandler ItemClick;
+		private int itemStart;
 
-		// Methods
-		public ItemsList()
-		{
-			this.bindList1 = (ItemsList) (this.bindList2 = null);
-			this.alignment = ContentAlignment.MiddleLeft;
-			this.BuildItemList();
-		}
+		private bool pageEnable;
 
-		private void BuildItemList()
-		{
-			if (this.row == 0)
-			{
-				this.labels = null;
-			}
-			else
-			{
-				base.Controls.Clear();
-				Label[] labels = this.labels;
-				this.labels = new Label[this.row];
-				EventHandler handler = new EventHandler(this.Item_Click);
-				for (int i = 0; i < this.row; i++)
-				{
-					if ((labels != null) && (i < labels.Length))
-					{
-						this.labels[i] = labels[i];
-					}
-					else
-					{
-						this.labels[i] = new Label();
-						this.labels[i].Click += handler;
-					}
-					int num = this.border + (i * this.itemHeight);
-					this.labels[i].Left = this.border;
-					this.labels[i].Top = num;
-					this.labels[i].Width = this.itemWidth;
-					this.labels[i].Height = this.itemHeight;
-					this.labels[i].TextAlign = this.alignment;
-					if ((i % 2) == 0)
-					{
-						this.labels[i].ForeColor = this.foreNormalColor;
-						this.labels[i].BackColor = this.backNormalColor;
-					}
-					else
-					{
-						this.labels[i].ForeColor = this.foreAlterColor;
-						this.labels[i].BackColor = this.backAlterColor;
-					}
-				}
-				base.Controls.AddRange(this.labels);
-				base.Width = this.itemWidth + (this.border * 2);
-				base.Height = (this.itemHeight * this.row) + (this.border * 2);
-			}
-		}
+		private bool autoRefresh;
 
-		private void ChangePosition(int itemStart, int selectedIndex)
-		{
-			if ((this.bindList1 != null) && (this.bindList1.selectedIndex != selectedIndex))
-			{
-				this.bindList1.itemStart = itemStart;
-				this.bindList1.selectedIndex = selectedIndex;
-				this.bindList1.SetItemValue();
-				this.bindList1.ChangePosition(itemStart, selectedIndex);
-			}
-			if ((this.bindList2 != null) && (this.bindList2.selectedIndex != selectedIndex))
-			{
-				this.bindList2.itemStart = itemStart;
-				this.bindList2.selectedIndex = selectedIndex;
-				this.bindList2.SetItemValue();
-				this.bindList2.ChangePosition(itemStart, selectedIndex);
-			}
-		}
+		private ContentAlignment alignment;
 
-		public void Clear()
-		{
-			this.items.Clear();
-			this.SelectedIndex = -1;
-			this.itemStart = 0;
-		}
-
-		public void Down(int cnt)
-		{
-			if (this.pageEnable)
-			{
-				if (((this.itemStart + cnt) + this.row) < this.items.Count)
-				{
-					this.itemStart += cnt;
-				}
-				else
-				{
-					this.itemStart = this.items.Count - this.row;
-				}
-				this.SetItemValue();
-				if ((this.bindList1 != null) && (this.bindList1.itemStart != this.itemStart))
-				{
-					this.bindList1.Down(cnt);
-				}
-				if ((this.bindList2 != null) && (this.bindList2.itemStart != this.itemStart))
-				{
-					this.bindList2.Down(cnt);
-				}
-			}
-		}
-
-		private void Item_Click(object sender, EventArgs e)
-		{
-			if ((this.items.Count > 0) && (sender is Label))
-			{
-				Label label = (Label) sender;
-				int num = -1;
-				for (int i = 0; i < this.labels.Length; i++)
-				{
-					if (label == this.labels[i])
-					{
-						num = i;
-						break;
-					}
-				}
-				if ((num >= 0) && ((this.itemStart + num) < this.items.Count))
-				{
-					this.selectedIndex = this.itemStart + num;
-					this.SetItemValue();
-					this.OnItemClick(new ItemsListEventArgs((DataItem) this.items[this.itemStart + num]));
-					this.ChangePosition(this.itemStart, this.selectedIndex);
-				}
-			}
-		}
-
-		protected virtual void OnItemClick(ItemsListEventArgs e)
-		{
-			if (this.ItemClick != null)
-			{
-				this.ItemClick(this, e);
-			}
-		}
-
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			this.SetItemValue();
-			pe.Graphics.DrawRectangle(Pens.Black, 0, 0, base.Width - 1, base.Height - 1);
-		}
-
-		public void Reset()
-		{
-			this.itemStart = 0;
-			this.pageEnable = false;
-			this.autoRefresh = true;
-		}
-
-		private void SetItemValue()
-		{
-			if (this.labels != null)
-			{
-				int index = -1;
-				if (this.items.Count > this.labels.Length)
-				{
-					this.pageEnable = true;
-				}
-				else
-				{
-					this.pageEnable = false;
-				}
-				int num3 = 0;
-				for (int i = 0; i < this.items.Count; i++)
-				{
-					if (((i == this.itemStart) || (this.itemStart < 0)) && (index < 0))
-					{
-						this.itemStart = i;
-						index = 0;
-					}
-					if (index >= this.labels.Length)
-					{
-						break;
-					}
-					if (((this.items != null) && (i < this.items.Count)) && (this.items[i] is DataItem))
-					{
-						DataItem item = (DataItem) this.items[i];
-						if (index >= 0)
-						{
-							this.labels[index].Text = item.Text;
-							this.labels[index].Cursor = Cursors.Hand;
-							if (item.Strike)
-							{
-								if ((this.strikeFont == null) || (this.strikeFont.Size != this.Font.Size))
-								{
-									this.strikeFont = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Strikeout, this.Font.Unit);
-								}
-								this.labels[index].Font = this.strikeFont;
-							}
-							else
-							{
-								this.labels[index].Font = this.Font;
-							}
-						}
-						if (item.IsHeader)
-						{
-							if (index >= 0)
-							{
-								if (this.selectedIndex == i)
-								{
-									this.labels[index].ForeColor = this.foreHeaderSelectedColor;
-									this.labels[index].BackColor = this.backHeaderSelectedColor;
-								}
-								else
-								{
-									this.labels[index].ForeColor = this.foreHeaderColor;
-									this.labels[index].BackColor = this.backHeaderColor;
-								}
-							}
-							num3 = 0;
-						}
-						else
-						{
-							if (index >= 0)
-							{
-								if (this.selectedIndex == i)
-								{
-									this.labels[index].ForeColor = this.foreSelectedColor;
-									this.labels[index].BackColor = this.backSelectedColor;
-								}
-								else if ((num3 % 2) == 0)
-								{
-									this.labels[index].ForeColor = this.foreNormalColor;
-									this.labels[index].BackColor = this.backNormalColor;
-								}
-								else
-								{
-									this.labels[index].ForeColor = this.foreAlterColor;
-									this.labels[index].BackColor = this.backAlterColor;
-								}
-							}
-							num3++;
-						}
-					}
-					else if (index >= 0)
-					{
-						this.labels[index].Text = null;
-					}
-					if (index >= 0)
-					{
-						index++;
-					}
-				}
-				if (index < 0)
-				{
-					if (this.items.Count > 0)
-					{
-						return;
-					}
-					index = 0;
-				}
-				while (index < this.labels.Length)
-				{
-					this.labels[index].Text = null;
-					this.labels[index].Cursor = Cursors.Default;
-					if ((num3 % 2) == 0)
-					{
-						this.labels[index].ForeColor = this.foreNormalColor;
-						this.labels[index].BackColor = this.backNormalColor;
-					}
-					else
-					{
-						this.labels[index].ForeColor = this.foreAlterColor;
-						this.labels[index].BackColor = this.backAlterColor;
-					}
-					num3++;
-					index++;
-				}
-			}
-		}
-
-		public void Up(int cnt)
-		{
-			if (this.pageEnable)
-			{
-				if ((this.itemStart - cnt) >= 0)
-				{
-					this.itemStart -= cnt;
-				}
-				else
-				{
-					this.itemStart = 0;
-				}
-				this.SetItemValue();
-				if ((this.bindList1 != null) && (this.bindList1.itemStart != this.itemStart))
-				{
-					this.bindList1.Up(cnt);
-				}
-				if ((this.bindList2 != null) && (this.bindList2.itemStart != this.itemStart))
-				{
-					this.bindList2.Up(cnt);
-				}
-			}
-		}
-
-		// Properties
 		public ContentAlignment Alignment
 		{
 			get
@@ -489,7 +210,11 @@ namespace smartRestaurant.Controls
 		{
 			get
 			{
-				return (this.pageEnable && ((this.itemStart + this.row) < this.items.Count));
+				if (!this.pageEnable)
+				{
+					return false;
+				}
+				return this.itemStart + this.row < this.items.Count;
 			}
 		}
 
@@ -497,7 +222,11 @@ namespace smartRestaurant.Controls
 		{
 			get
 			{
-				return (this.pageEnable && (this.itemStart > 0));
+				if (!this.pageEnable)
+				{
+					return false;
+				}
+				return this.itemStart > 0;
 			}
 		}
 
@@ -645,9 +374,9 @@ namespace smartRestaurant.Controls
 			set
 			{
 				this.selectedIndex = value;
-				if (this.selectedIndex >= (this.itemStart + this.row))
+				if (this.selectedIndex >= this.itemStart + this.row)
 				{
-					this.itemStart = (this.selectedIndex - this.row) + 1;
+					this.itemStart = this.selectedIndex - this.row + 1;
 				}
 				else if (this.selectedIndex < this.itemStart)
 				{
@@ -656,27 +385,323 @@ namespace smartRestaurant.Controls
 				this.ChangePosition(this.itemStart, this.selectedIndex);
 			}
 		}
-	}
-	public delegate void ItemsListEventHandler(object sender, ItemsListEventArgs e);
 
-	public class ItemsListEventArgs : EventArgs
-	{
-		// Fields
-		private DataItem item;
-
-		// Methods
-		public ItemsListEventArgs(DataItem item)
+		public ItemsList()
 		{
-			this.item = item;
+			this.items = new ArrayList();
+			this.border = 0;
+			this.itemStart = 0;
+			this.itemWidth = 320;
+			this.itemHeight = 20;
+			this.pageEnable = false;
+			this.autoRefresh = true;
+			object obj = null;
+			ItemsList itemsList = (ItemsList)obj;
+			this.bindList2 = (ItemsList)obj;
+			this.bindList1 = itemsList;
+			this.alignment = ContentAlignment.MiddleLeft;
+			this.BuildItemList();
 		}
 
-		// Properties
-		public DataItem Item
+		private void BuildItemList()
 		{
-			get
+			if (this.row == 0)
 			{
-				return this.item;
+				this.labels = null;
+				return;
+			}
+			base.Controls.Clear();
+			Label[] labelArray = this.labels;
+			this.labels = new Label[this.row];
+			EventHandler eventHandler = new EventHandler(this.Item_Click);
+			for (int i = 0; i < this.row; i++)
+			{
+				if (labelArray == null || i >= (int)labelArray.Length)
+				{
+					this.labels[i] = new Label();
+					this.labels[i].Click += eventHandler;
+				}
+				else
+				{
+					this.labels[i] = labelArray[i];
+				}
+				int num = this.border + i * this.itemHeight;
+				this.labels[i].Left = this.border;
+				this.labels[i].Top = num;
+				this.labels[i].Width = this.itemWidth;
+				this.labels[i].Height = this.itemHeight;
+				this.labels[i].TextAlign = this.alignment;
+				if (i % 2 != 0)
+				{
+					this.labels[i].ForeColor = this.foreAlterColor;
+					this.labels[i].BackColor = this.backAlterColor;
+				}
+				else
+				{
+					this.labels[i].ForeColor = this.foreNormalColor;
+					this.labels[i].BackColor = this.backNormalColor;
+				}
+			}
+			base.Controls.AddRange(this.labels);
+			base.Width = this.itemWidth + this.border * 2;
+			base.Height = this.itemHeight * this.row + this.border * 2;
+		}
+
+		private void ChangePosition(int itemStart, int selectedIndex)
+		{
+			if (this.bindList1 != null && this.bindList1.selectedIndex != selectedIndex)
+			{
+				this.bindList1.itemStart = itemStart;
+				this.bindList1.selectedIndex = selectedIndex;
+				this.bindList1.SetItemValue();
+				this.bindList1.ChangePosition(itemStart, selectedIndex);
+			}
+			if (this.bindList2 != null && this.bindList2.selectedIndex != selectedIndex)
+			{
+				this.bindList2.itemStart = itemStart;
+				this.bindList2.selectedIndex = selectedIndex;
+				this.bindList2.SetItemValue();
+				this.bindList2.ChangePosition(itemStart, selectedIndex);
 			}
 		}
+
+		public void Clear()
+		{
+			this.items.Clear();
+			this.SelectedIndex = -1;
+			this.itemStart = 0;
+		}
+
+		public void Down(int cnt)
+		{
+			if (!this.pageEnable)
+			{
+				return;
+			}
+			if (this.itemStart + cnt + this.row >= this.items.Count)
+			{
+				this.itemStart = this.items.Count - this.row;
+			}
+			else
+			{
+				this.itemStart += cnt;
+			}
+			this.SetItemValue();
+			if (this.bindList1 != null && this.bindList1.itemStart != this.itemStart)
+			{
+				this.bindList1.Down(cnt);
+			}
+			if (this.bindList2 != null && this.bindList2.itemStart != this.itemStart)
+			{
+				this.bindList2.Down(cnt);
+			}
+		}
+
+		private void Item_Click(object sender, EventArgs e)
+		{
+			if (this.items.Count <= 0)
+			{
+				return;
+			}
+			if (!(sender is Label))
+			{
+				return;
+			}
+			Label label = (Label)sender;
+			int num = -1;
+			int num1 = 0;
+			while (num1 < (int)this.labels.Length)
+			{
+				if (label != this.labels[num1])
+				{
+					num1++;
+				}
+				else
+				{
+					num = num1;
+					break;
+				}
+			}
+			if (num < 0 || this.itemStart + num >= this.items.Count)
+			{
+				return;
+			}
+			this.selectedIndex = this.itemStart + num;
+			this.SetItemValue();
+			this.OnItemClick(new ItemsListEventArgs((DataItem)this.items[this.itemStart + num]));
+			this.ChangePosition(this.itemStart, this.selectedIndex);
+		}
+
+		protected virtual void OnItemClick(ItemsListEventArgs e)
+		{
+			if (this.ItemClick != null)
+			{
+				this.ItemClick(this, e);
+			}
+		}
+
+		protected override void OnPaint(PaintEventArgs pe)
+		{
+			this.SetItemValue();
+			Graphics graphics = pe.Graphics;
+			graphics.DrawRectangle(Pens.Black, 0, 0, base.Width - 1, base.Height - 1);
+		}
+
+		public void Reset()
+		{
+			this.itemStart = 0;
+			this.pageEnable = false;
+			this.autoRefresh = true;
+		}
+
+		private void SetItemValue()
+		{
+			if (this.labels == null)
+			{
+				return;
+			}
+			int num = -1;
+			if (this.items.Count <= (int)this.labels.Length)
+			{
+				this.pageEnable = false;
+			}
+			else
+			{
+				this.pageEnable = true;
+			}
+			int num1 = 0;
+			for (int i = 0; i < this.items.Count; i++)
+			{
+				if ((i == this.itemStart || this.itemStart < 0) && num < 0)
+				{
+					this.itemStart = i;
+					num = 0;
+				}
+				if (num >= (int)this.labels.Length)
+				{
+					break;
+				}
+				if (this.items != null && i < this.items.Count && this.items[i] is DataItem)
+				{
+					DataItem item = (DataItem)this.items[i];
+					if (num >= 0)
+					{
+						this.labels[num].Text = item.Text;
+						this.labels[num].Cursor = Cursors.Hand;
+						if (!item.Strike)
+						{
+							this.labels[num].Font = this.Font;
+						}
+						else
+						{
+							if (this.strikeFont == null || this.strikeFont.Size != this.Font.Size)
+							{
+								this.strikeFont = new System.Drawing.Font(this.Font.FontFamily, this.Font.Size, FontStyle.Strikeout, this.Font.Unit);
+							}
+							this.labels[num].Font = this.strikeFont;
+						}
+					}
+					if (!item.IsHeader)
+					{
+						if (num >= 0)
+						{
+							if (this.selectedIndex == i)
+							{
+								this.labels[num].ForeColor = this.foreSelectedColor;
+								this.labels[num].BackColor = this.backSelectedColor;
+							}
+							else if (num1 % 2 != 0)
+							{
+								this.labels[num].ForeColor = this.foreAlterColor;
+								this.labels[num].BackColor = this.backAlterColor;
+							}
+							else
+							{
+								this.labels[num].ForeColor = this.foreNormalColor;
+								this.labels[num].BackColor = this.backNormalColor;
+							}
+						}
+						num1++;
+					}
+					else
+					{
+						if (num >= 0)
+						{
+							if (this.selectedIndex != i)
+							{
+								this.labels[num].ForeColor = this.foreHeaderColor;
+								this.labels[num].BackColor = this.backHeaderColor;
+							}
+							else
+							{
+								this.labels[num].ForeColor = this.foreHeaderSelectedColor;
+								this.labels[num].BackColor = this.backHeaderSelectedColor;
+							}
+						}
+						num1 = 0;
+					}
+				}
+				else if (num >= 0)
+				{
+					this.labels[num].Text = null;
+				}
+				if (num >= 0)
+				{
+					num++;
+				}
+			}
+			if (num < 0)
+			{
+				if (this.items.Count > 0)
+				{
+					return;
+				}
+				num = 0;
+			}
+			while (num < (int)this.labels.Length)
+			{
+				this.labels[num].Text = null;
+				this.labels[num].Cursor = Cursors.Default;
+				if (num1 % 2 != 0)
+				{
+					this.labels[num].ForeColor = this.foreAlterColor;
+					this.labels[num].BackColor = this.backAlterColor;
+				}
+				else
+				{
+					this.labels[num].ForeColor = this.foreNormalColor;
+					this.labels[num].BackColor = this.backNormalColor;
+				}
+				num1++;
+				num++;
+			}
+		}
+
+		public void Up(int cnt)
+		{
+			if (!this.pageEnable)
+			{
+				return;
+			}
+			if (this.itemStart - cnt < 0)
+			{
+				this.itemStart = 0;
+			}
+			else
+			{
+				this.itemStart -= cnt;
+			}
+			this.SetItemValue();
+			if (this.bindList1 != null && this.bindList1.itemStart != this.itemStart)
+			{
+				this.bindList1.Up(cnt);
+			}
+			if (this.bindList2 != null && this.bindList2.itemStart != this.itemStart)
+			{
+				this.bindList2.Up(cnt);
+			}
+		}
+
+		public event ItemsListEventHandler ItemClick;
 	}
 }

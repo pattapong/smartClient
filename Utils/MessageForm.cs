@@ -1,24 +1,40 @@
+using smartRestaurant.Controls;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Collections;
-using System.ComponentModel;
+using System.Resources;
 using System.Windows.Forms;
 
 namespace smartRestaurant.Utils
 {
-	/// <summary>
-	/// Summary description for MessageForm.
-	/// </summary>
 	public class MessageForm : Form
 	{
-		// Fields
-		private smartRestaurant.Controls.ImageButton BtnOk;
-		private Container components = null;
-		private static MessageForm instance = null;
+		private static MessageForm instance;
+
 		private Label LblText;
 
-		// Methods
+		private ImageButton BtnOk;
+
+		private System.ComponentModel.Container components = null;
+
+		public string MessageText
+		{
+			get
+			{
+				return this.LblText.Text;
+			}
+			set
+			{
+				this.LblText.Text = value;
+			}
+		}
+
+		static MessageForm()
+		{
+			MessageForm.instance = null;
+		}
+
 		public MessageForm()
 		{
 			this.InitializeComponent();
@@ -31,7 +47,7 @@ namespace smartRestaurant.Utils
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (this.components != null))
+			if (disposing && this.components != null)
 			{
 				this.components.Dispose();
 			}
@@ -40,73 +56,73 @@ namespace smartRestaurant.Utils
 
 		private void InitializeComponent()
 		{
-			this.LblText = new System.Windows.Forms.Label();
-			this.SuspendLayout();
-			// 
-			// LblText
-			// 
-			this.LblText.BackColor = System.Drawing.Color.Transparent;
-			this.LblText.Location = new System.Drawing.Point(8, 40);
+			ResourceManager resourceManager = new ResourceManager(typeof(MessageForm));
+			this.LblText = new Label();
+			this.BtnOk = new ImageButton();
+			base.SuspendLayout();
+			this.LblText.BackColor = Color.Transparent;
+			this.LblText.Location = new Point(8, 40);
 			this.LblText.Name = "LblText";
 			this.LblText.Size = new System.Drawing.Size(288, 56);
 			this.LblText.TabIndex = 0;
-			this.LblText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MessageForm
-			// 
+			this.LblText.TextAlign = ContentAlignment.MiddleCenter;
+			this.BtnOk.BackColor = Color.Transparent;
+			this.BtnOk.Blue = 1f;
+			this.BtnOk.Cursor = Cursors.Hand;
+			this.BtnOk.Font = new System.Drawing.Font("Tahoma", 9.75f, FontStyle.Regular, GraphicsUnit.Point, 222);
+			this.BtnOk.Green = 1f;
+			this.BtnOk.Image = (Bitmap)resourceManager.GetObject("BtnOk.Image");
+			this.BtnOk.ImageClick = (Bitmap)resourceManager.GetObject("BtnOk.ImageClick");
+			this.BtnOk.ImageClickIndex = 0;
+			this.BtnOk.Location = new Point(184, 96);
+			this.BtnOk.Name = "BtnOk";
+			this.BtnOk.ObjectValue = null;
+			this.BtnOk.Red = 1f;
+			this.BtnOk.Size = new System.Drawing.Size(110, 60);
+			this.BtnOk.TabIndex = 1;
+			this.BtnOk.Text = "Ok";
+			this.BtnOk.TextAlign = ContentAlignment.MiddleCenter;
+			this.BtnOk.Click += new EventHandler(this.BtnOk_Click);
 			this.AutoScaleBaseSize = new System.Drawing.Size(9, 23);
-			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(304, 160);
-			this.Controls.Add(this.LblText);
-			this.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(222)));
-			this.Name = "MessageForm";
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.BackColor = Color.White;
+			base.ClientSize = new System.Drawing.Size(304, 160);
+			Control.ControlCollection controls = base.Controls;
+			Control[] btnOk = new Control[] { this.BtnOk, this.LblText };
+			controls.AddRange(btnOk);
+			this.Font = new System.Drawing.Font("Tahoma", 14.25f, FontStyle.Regular, GraphicsUnit.Point, 222);
+			base.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			base.Name = "MessageForm";
+			base.ShowInTaskbar = false;
+			base.StartPosition = FormStartPosition.CenterParent;
 			this.Text = "MessageForm";
-			this.ResumeLayout(false);
-
+			base.ResumeLayout(false);
 		}
 
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			Graphics graphics = pe.Graphics;
-			Rectangle rect = new Rectangle(0, 0, base.Width, 0x1d);
-			LinearGradientBrush brush = new LinearGradientBrush(rect, Color.FromArgb(0x67, 0x8a, 0xc6), Color.White, 90f);
-			graphics.FillRectangle(brush, rect);
-			rect = new Rectangle(0, 30, base.Width, base.Height - 30);
-			brush = new LinearGradientBrush(rect, Color.FromArgb(230, 230, 230), Color.White, 180f);
-			graphics.FillRectangle(brush, rect);
+			Rectangle rectangle = new Rectangle(0, 0, base.Width, 29);
+			LinearGradientBrush linearGradientBrush = new LinearGradientBrush(rectangle, Color.FromArgb(103, 138, 198), Color.White, 90f);
+			graphics.FillRectangle(linearGradientBrush, rectangle);
+			rectangle = new Rectangle(0, 30, base.Width, base.Height - 30);
+			linearGradientBrush = new LinearGradientBrush(rectangle, Color.FromArgb(230, 230, 230), Color.White, 180f);
+			graphics.FillRectangle(linearGradientBrush, rectangle);
 			Pen pen = new Pen(Color.FromArgb(180, 180, 180));
-			graphics.DrawLine(pen, 0, 0x1d, base.Width - 1, 0x1d);
+			graphics.DrawLine(pen, 0, 29, base.Width - 1, 29);
 			graphics.DrawRectangle(pen, 0, 0, base.Width - 1, base.Height - 1);
-			graphics.DrawString(this.Text, this.Font, Brushes.Black, (float) 15f, (float) 4f);
+			graphics.DrawString(this.Text, this.Font, Brushes.Black, 15f, 4f);
 			base.OnPaint(pe);
 		}
 
 		public static void Show(string caption, string text)
 		{
-			if (instance == null)
+			if (MessageForm.instance == null)
 			{
-				instance = new MessageForm();
+				MessageForm.instance = new MessageForm();
 			}
-			instance.Text = caption;
-			instance.MessageText = text;
-			instance.ShowDialog();
-		}
-
-		// Properties
-		public string MessageText
-		{
-			get
-			{
-				return this.LblText.Text;
-			}
-			set
-			{
-				this.LblText.Text = value;
-			}
+			MessageForm.instance.Text = caption;
+			MessageForm.instance.MessageText = text;
+			MessageForm.instance.ShowDialog();
 		}
 	}
-
-
 }

@@ -1,241 +1,45 @@
 using System;
 using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-
 
 namespace smartRestaurant.Controls
 {
 	public class ButtonListPad : Control
 	{
-		// Fields
-		private bool autoRefresh;
-		private float blue;
-		private ImageButton[] buttons;
-		private int column;
-		private float green;
-		private Image image;
-		private Image imageClick;
-		private int imageClickIndex;
-		private int imageIndex;
-		private ImageList imageList;
-		private ArrayList items;
-		private int itemStart;
-		private int padding;
-		private bool pageEnable;
-		private float red;
 		private int row;
-		// Events
-		public event ButtonListPadEventHandler PadClick;
 
-		public event ButtonListPadEventHandler PageChange;
+		private int column;
 
-		// Methods
-		public ButtonListPad()
-		{
-			this.red = this.green = this.blue = 1f;
-			this.items = new ArrayList();
-			this.itemStart = 0;
-			this.pageEnable = false;
-			this.autoRefresh = true;
-			this.BuildButtonList();
-		}
+		private int padding;
 
-		private void BuildButtonList()
-		{
-			int num3 = this.row * this.column;
-			if (num3 == 0)
-			{
-				this.buttons = null;
-			}
-			else
-			{
-				base.Controls.Clear();
-				ImageButton[] buttons = this.buttons;
-				this.buttons = new ImageButton[num3];
-				EventHandler handler = new EventHandler(this.Button_Click);
-				for (int i = 0; i < num3; i++)
-				{
-					if ((buttons != null) && (i < buttons.Length))
-					{
-						this.buttons[i] = buttons[i];
-					}
-					else
-					{
-						this.buttons[i] = new ImageButton();
-						this.buttons[i].Click += handler;
-						this.buttons[i].DoubleClick += handler;
-					}
-					this.buttons[i].Image = this.image;
-					this.buttons[i].ImageClick = this.imageClick;
+		private System.Windows.Forms.ImageList imageList;
 
-					int num = (i % this.column) * (this.buttons[i].Width + this.padding);
-					int num2 = (i / this.column) * (this.buttons[i].Height + this.padding);
-					this.buttons[i].Left = num;
-					this.buttons[i].Top = num2;
-				}
-				base.Controls.AddRange(this.buttons);
-				base.Width = ((this.buttons[0].Width + this.padding) * this.column) - this.padding;
-				base.Height = ((this.buttons[0].Height + this.padding) * this.row) - this.padding;
-			}
-		}
+		private System.Drawing.Image image;
 
-		private void Button_Click(object sender, EventArgs e)
-		{
-			if (sender is ImageButton)
-			{
-				ImageButton button = (ImageButton) sender;
-				int index = -1;
-				for (int i = 0; i < this.buttons.Length; i++)
-				{
-					if (button == this.buttons[i])
-					{
-						index = i;
-						break;
-					}
-				}
-				if (index >= 0)
-				{
-					if (this.pageEnable)
-					{
-						if (index == 0)
-						{
-							this.itemStart -= this.buttons.Length - 2;
-							if (this.itemStart < 0)
-							{
-								this.itemStart = (this.items.Count / (this.buttons.Length - 2)) * (this.buttons.Length - 2);
-							}
-							this.OnPageChange(new ButtonListPadEventArgs(button, index));
-							return;
-						}
-						if (index == (this.buttons.Length - 1))
-						{
-							this.itemStart += this.buttons.Length - 2;
-							if (this.itemStart >= this.items.Count)
-							{
-								this.itemStart = 0;
-							}
-							this.OnPageChange(new ButtonListPadEventArgs(button, index));
-							return;
-						}
-						index += this.itemStart - 1;
-					}
-					this.OnPadClick(new ButtonListPadEventArgs(button, index));
-				}
-			}
-		}
+		private System.Drawing.Image imageClick;
 
-		public int GetPosition(int index)
-		{
-			if (!this.pageEnable)
-			{
-				return index;
-			}
-			if (index < this.itemStart)
-			{
-				return -1;
-			}
-			if (index >= (this.itemStart + (this.buttons.Length - 2)))
-			{
-				return -1;
-			}
-			return ((index - this.itemStart) + 1);
-		}
+		private int imageIndex;
 
-		protected virtual void OnPadClick(ButtonListPadEventArgs e)
-		{
-			if (this.PadClick != null)
-			{
-				this.PadClick(this, e);
-			}
-		}
+		private int imageClickIndex;
 
-		protected virtual void OnPageChange(ButtonListPadEventArgs e)
-		{
-			if (this.PageChange != null)
-			{
-				this.PageChange(this, e);
-			}
-		}
+		private ImageButton[] buttons;
 
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			this.SetButtonValue();
-		}
+		private float red;
 
-		public void SetButtonValue()
-		{
-			int itemStart = this.itemStart;
-			if (this.items != null)
-			{
-				int num3;
-				int length;
-				if (this.items.Count > this.buttons.Length)
-				{
-					num3 = 1;
-					length = this.buttons.Length - 1;
-					this.buttons[0].Text = "<<";
-					this.buttons[0].ObjectValue = null;
-					this.buttons[this.buttons.Length - 1].Text = ">>";
-					this.buttons[this.buttons.Length - 1].ObjectValue = null;
-					this.pageEnable = true;
-				}
-				else
-				{
-					num3 = 0;
-					length = this.buttons.Length;
-					this.pageEnable = false;
-				}
-				for (int i = num3; i < length; i++)
-				{
-					if (((this.items != null) && (itemStart < this.items.Count)) && (this.items[itemStart] is ButtonItem))
-					{
-						ButtonItem item = (ButtonItem) this.items[itemStart];
-						this.buttons[i].Text = item.Text;
-						this.buttons[i].ObjectValue = item.ObjectValue;
-						this.buttons[i].ForeColor = item.ForeColor;
-						this.buttons[i].IsLock = item.IsLock;
-					}
-					else
-					{
-						this.buttons[i].Text = null;
-						this.buttons[i].ObjectValue = null;
-						this.buttons[i].IsLock = false;
-					}
-					itemStart++;
-				}
-			}
-		}
+		private float green;
 
-		public void SetLock(int pos, bool isLock)
-		{
-			if ((this.buttons != null) && (pos < this.buttons.Length))
-			{
-				this.buttons[pos].IsLock = isLock;
-				if (this.autoRefresh)
-				{
-					this.buttons[pos].Refresh();
-				}
-			}
-		}
+		private float blue;
 
-		public void SetMatrix(int pos, float red, float green, float blue)
-		{
-			if ((this.buttons != null) && (pos < this.buttons.Length))
-			{
-				this.buttons[pos].Red = red;
-				this.buttons[pos].Green = green;
-				this.buttons[pos].Blue = blue;
-				if (this.autoRefresh)
-				{
-					this.buttons[pos].Refresh();
-				}
-			}
-		}
+		private ArrayList items;
 
-		// Properties
+		private int itemStart;
+
+		private bool pageEnable;
+
+		private bool autoRefresh;
+
 		public bool AutoRefresh
 		{
 			get
@@ -263,7 +67,7 @@ namespace smartRestaurant.Controls
 				this.blue = value;
 				if (this.buttons != null)
 				{
-					for (int i = 0; i < this.buttons.Length; i++)
+					for (int i = 0; i < (int)this.buttons.Length; i++)
 					{
 						this.buttons[i].Blue = this.blue;
 					}
@@ -307,7 +111,7 @@ namespace smartRestaurant.Controls
 				this.green = value;
 				if (this.buttons != null)
 				{
-					for (int i = 0; i < this.buttons.Length; i++)
+					for (int i = 0; i < (int)this.buttons.Length; i++)
 					{
 						this.buttons[i].Green = this.green;
 					}
@@ -319,7 +123,7 @@ namespace smartRestaurant.Controls
 			}
 		}
 
-		public Image Image
+		public System.Drawing.Image Image
 		{
 			get
 			{
@@ -330,7 +134,7 @@ namespace smartRestaurant.Controls
 				this.image = value;
 				if (this.buttons != null)
 				{
-					for (int i = 0; i < this.buttons.Length; i++)
+					for (int i = 0; i < (int)this.buttons.Length; i++)
 					{
 						this.buttons[i].Image = this.image;
 					}
@@ -338,7 +142,7 @@ namespace smartRestaurant.Controls
 			}
 		}
 
-		public Image ImageClick
+		public System.Drawing.Image ImageClick
 		{
 			get
 			{
@@ -349,7 +153,7 @@ namespace smartRestaurant.Controls
 				this.imageClick = value;
 				if (this.buttons != null)
 				{
-					for (int i = 0; i < this.buttons.Length; i++)
+					for (int i = 0; i < (int)this.buttons.Length; i++)
 					{
 						this.buttons[i].ImageClick = this.imageClick;
 					}
@@ -366,7 +170,7 @@ namespace smartRestaurant.Controls
 			set
 			{
 				this.imageClickIndex = value;
-				if (this.imageList != null && this.imageList.Images.Count != 0)
+				if (this.imageList != null)
 				{
 					this.ImageClick = this.imageList.Images[this.imageClickIndex];
 				}
@@ -382,14 +186,14 @@ namespace smartRestaurant.Controls
 			set
 			{
 				this.imageIndex = value;
-				if (this.imageList != null && this.imageList.Images.Count != 0)
+				if (this.imageList != null)
 				{
 					this.Image = this.imageList.Images[this.imageIndex];
 				}
 			}
 		}
 
-		public ImageList ImageList
+		public System.Windows.Forms.ImageList ImageList
 		{
 			get
 			{
@@ -449,7 +253,7 @@ namespace smartRestaurant.Controls
 				this.red = value;
 				if (this.buttons != null)
 				{
-					for (int i = 0; i < this.buttons.Length; i++)
+					for (int i = 0; i < (int)this.buttons.Length; i++)
 					{
 						this.buttons[i].Red = this.red;
 					}
@@ -474,68 +278,225 @@ namespace smartRestaurant.Controls
 			}
 		}
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            this.ResumeLayout(false);
-
-        }
-	}
-	public delegate void ButtonListPadEventHandler(object sender, ButtonListPadEventArgs e);
-	public class ButtonListPadEventArgs : System.ComponentModel.Component
-	{
-		private ImageButton button;
-		private object buttonValue;
-		private int index;
-
-		// Methods
-		public ButtonListPadEventArgs(ImageButton button, int index)
+		public ButtonListPad()
 		{
-			this.button = button;
-			if (button.ObjectValue != null)
+			float single = 1f;
+			float single1 = single;
+			this.blue = single;
+			float single2 = single1;
+			single1 = single2;
+			this.green = single2;
+			this.red = single1;
+			this.items = new ArrayList();
+			this.itemStart = 0;
+			this.pageEnable = false;
+			this.autoRefresh = true;
+			this.BuildButtonList();
+		}
+
+		private void BuildButtonList()
+		{
+			int num = this.row * this.column;
+			if (num == 0)
 			{
-				this.buttonValue = button.ObjectValue;
+				this.buttons = null;
+				return;
+			}
+			base.Controls.Clear();
+			ImageButton[] imageButtonArray = this.buttons;
+			this.buttons = new ImageButton[num];
+			EventHandler eventHandler = new EventHandler(this.Button_Click);
+			for (int i = 0; i < num; i++)
+			{
+				if (imageButtonArray == null || i >= (int)imageButtonArray.Length)
+				{
+					this.buttons[i] = new ImageButton();
+					this.buttons[i].Click += eventHandler;
+					this.buttons[i].DoubleClick += eventHandler;
+				}
+				else
+				{
+					this.buttons[i] = imageButtonArray[i];
+				}
+				this.buttons[i].Image = this.image;
+				this.buttons[i].ImageClick = this.imageClick;
+				this.buttons[i].Width = this.imageClick.Width;
+				this.buttons[i].Height = this.imageClick.Height;
+				int width = i % this.column * (this.buttons[i].Width + this.padding);
+				int height = i / this.column * (this.buttons[i].Height + this.padding);
+				this.buttons[i].Left = width;
+				this.buttons[i].Top = height;
+			}
+			base.Controls.AddRange(this.buttons);
+			base.Width = (this.buttons[0].Width + this.padding) * this.column - this.padding;
+			base.Height = (this.buttons[0].Height + this.padding) * this.row - this.padding;
+		}
+
+		private void Button_Click(object sender, EventArgs e)
+		{
+			if (!(sender is ImageButton))
+			{
+				return;
+			}
+			ImageButton imageButton = (ImageButton)sender;
+			int num = -1;
+			int num1 = 0;
+			while (num1 < (int)this.buttons.Length)
+			{
+				if (imageButton != this.buttons[num1])
+				{
+					num1++;
+				}
+				else
+				{
+					num = num1;
+					break;
+				}
+			}
+			if (num < 0)
+			{
+				return;
+			}
+			if (this.pageEnable)
+			{
+				if (num == 0)
+				{
+					ButtonListPad length = this;
+					length.itemStart = length.itemStart - ((int)this.buttons.Length - 2);
+					if (this.itemStart < 0)
+					{
+						this.itemStart = this.items.Count / ((int)this.buttons.Length - 2) * ((int)this.buttons.Length - 2);
+					}
+					this.OnPageChange(new ButtonListPadEventArgs(imageButton, num));
+					return;
+				}
+				if (num == (int)this.buttons.Length - 1)
+				{
+					ButtonListPad buttonListPad = this;
+					buttonListPad.itemStart = buttonListPad.itemStart + ((int)this.buttons.Length - 2);
+					if (this.itemStart >= this.items.Count)
+					{
+						this.itemStart = 0;
+					}
+					this.OnPageChange(new ButtonListPadEventArgs(imageButton, num));
+					return;
+				}
+				num = num + (this.itemStart - 1);
+			}
+			this.OnPadClick(new ButtonListPadEventArgs(imageButton, num));
+		}
+
+		public int GetPosition(int index)
+		{
+			if (!this.pageEnable)
+			{
+				return index;
+			}
+			if (index < this.itemStart)
+			{
+				return -1;
+			}
+			if (index >= this.itemStart + ((int)this.buttons.Length - 2))
+			{
+				return -1;
+			}
+			return index - this.itemStart + 1;
+		}
+
+		protected virtual void OnPadClick(ButtonListPadEventArgs e)
+		{
+			if (this.PadClick != null)
+			{
+				this.PadClick(this, e);
+			}
+		}
+
+		protected virtual void OnPageChange(ButtonListPadEventArgs e)
+		{
+			if (this.PageChange != null)
+			{
+				this.PageChange(this, e);
+			}
+		}
+
+		protected override void OnPaint(PaintEventArgs pe)
+		{
+			this.SetButtonValue();
+		}
+
+		public void SetButtonValue()
+		{
+			int num;
+			int length;
+			int num1 = this.itemStart;
+			if (this.items == null)
+			{
+				return;
+			}
+			if (this.items.Count <= (int)this.buttons.Length)
+			{
+				num = 0;
+				length = (int)this.buttons.Length;
+				this.pageEnable = false;
 			}
 			else
 			{
-				this.buttonValue = null;
+				num = 1;
+				length = (int)this.buttons.Length - 1;
+				this.buttons[0].Text = "<<";
+				this.buttons[0].ObjectValue = null;
+				this.buttons[(int)this.buttons.Length - 1].Text = ">>";
+				this.buttons[(int)this.buttons.Length - 1].ObjectValue = null;
+				this.pageEnable = true;
 			}
-			this.index = index;
-		}
-
-		// Properties
-		public ImageButton Button
-		{
-			get
+			for (int i = num; i < length; i++)
 			{
-				return this.button;
-			}
-		}
-
-		public int Index
-		{
-			get
-			{
-				return this.index;
-			}
-		}
-
-		public object ObjectValue
-		{
-			get
-			{
-				return this.buttonValue;
+				if (this.items == null || num1 >= this.items.Count || !(this.items[num1] is ButtonItem))
+				{
+					this.buttons[i].Text = null;
+					this.buttons[i].ObjectValue = null;
+					this.buttons[i].IsLock = false;
+				}
+				else
+				{
+					ButtonItem item = (ButtonItem)this.items[num1];
+					this.buttons[i].Text = item.Text;
+					this.buttons[i].ObjectValue = item.ObjectValue;
+					this.buttons[i].ForeColor = item.ForeColor;
+					this.buttons[i].IsLock = item.IsLock;
+				}
+				num1++;
 			}
 		}
 
-		public string Value
+		public void SetLock(int pos, bool isLock)
 		{
-			get
+			if (this.buttons != null && pos < (int)this.buttons.Length)
 			{
-				return (string) this.buttonValue;
+				this.buttons[pos].IsLock = isLock;
+				if (this.autoRefresh)
+				{
+					this.buttons[pos].Refresh();
+				}
 			}
 		}
+
+		public void SetMatrix(int pos, float red, float green, float blue)
+		{
+			if (this.buttons != null && pos < (int)this.buttons.Length)
+			{
+				this.buttons[pos].Red = red;
+				this.buttons[pos].Green = green;
+				this.buttons[pos].Blue = blue;
+				if (this.autoRefresh)
+				{
+					this.buttons[pos].Refresh();
+				}
+			}
+		}
+
+		public event ButtonListPadEventHandler PadClick;
+
+		public event ButtonListPadEventHandler PageChange;
 	}
-
-
 }

@@ -1,66 +1,93 @@
-using System;
 using smartRestaurant.MenuService;
-using smartRestaurant.Utils;
+using System;
 
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for Menu.
-	/// </summary>
 	public class MenuManagement
 	{
-		// Fields
-		private static MenuOption[] menuOptions;
 		private static MenuType[] menuTypes;
 
-		// Methods
+		private static MenuOption[] menuOptions;
+
+		public static MenuOption[] MenuOptions
+		{
+			get
+			{
+				return MenuManagement.menuOptions;
+			}
+		}
+
+		public static MenuType[] MenuTypes
+		{
+			get
+			{
+				return MenuManagement.menuTypes;
+			}
+		}
+
+		public MenuManagement()
+		{
+		}
+
+		public static MenuItem GetMenuItemFromID(MenuType type, int id)
+		{
+			MenuItem menuItems = null;
+			if (type.MenuItems != null && (int)type.MenuItems.Length > 0)
+			{
+				int num = 0;
+				while (num < (int)type.MenuItems.Length)
+				{
+					if (type.MenuItems[num].ID != id)
+					{
+						num++;
+					}
+					else
+					{
+						menuItems = type.MenuItems[num];
+						break;
+					}
+				}
+			}
+			return menuItems;
+		}
+
 		public static MenuItem GetMenuItemFromID(int id)
 		{
 			MenuItem menuItemFromID = null;
-			for (int i = 0; i < menuTypes.Length; i++)
+			for (int i = 0; i < (int)MenuManagement.menuTypes.Length; i++)
 			{
-				menuItemFromID = GetMenuItemFromID(menuTypes[i], id);
+				menuItemFromID = MenuManagement.GetMenuItemFromID(MenuManagement.menuTypes[i], id);
 				if (menuItemFromID != null)
 				{
-					return menuItemFromID;
+					break;
 				}
 			}
 			return menuItemFromID;
 		}
 
-		public static MenuItem GetMenuItemFromID(MenuType type, int id)
-		{
-			if ((type.MenuItems != null) && (type.MenuItems.Length > 0))
-			{
-				for (int i = 0; i < type.MenuItems.Length; i++)
-				{
-					if (type.MenuItems[i].ID == id)
-					{
-						return type.MenuItems[i];
-					}
-				}
-			}
-			return null;
-		}
-
 		public static MenuItem GetMenuItemKeyID(int id)
 		{
-			MenuItem item = null;
-			for (int i = 0; i < menuTypes.Length; i++)
+			MenuItem menuItems = null;
+			for (int i = 0; i < (int)MenuManagement.menuTypes.Length; i++)
 			{
-				if ((menuTypes[i].MenuItems != null) && (menuTypes[i].MenuItems.Length > 0))
+				if (MenuManagement.menuTypes[i].MenuItems != null && (int)MenuManagement.menuTypes[i].MenuItems.Length > 0)
 				{
-					for (int j = 0; j < menuTypes[i].MenuItems.Length; j++)
+					int num = 0;
+					while (num < (int)MenuManagement.menuTypes[i].MenuItems.Length)
 					{
-						if (menuTypes[i].MenuItems[j].KeyID == id)
+						if (MenuManagement.menuTypes[i].MenuItems[num].KeyID != id)
 						{
-							item = menuTypes[i].MenuItems[j];
+							num++;
+						}
+						else
+						{
+							menuItems = MenuManagement.menuTypes[i].MenuItems[num];
 							break;
 						}
 					}
 				}
 			}
-			return item;
+			return menuItems;
 		}
 
 		public static string GetMenuLanguageName(MenuItem menuItem)
@@ -70,25 +97,32 @@ namespace smartRestaurant.Data
 
 		public static MenuType GetMenuTypeFromID(int id)
 		{
-			for (int i = 0; i < menuTypes.Length; i++)
+			MenuType menuType = null;
+			int num = 0;
+			while (num < (int)MenuManagement.menuTypes.Length)
 			{
-				if (menuTypes[i].ID == id)
+				if (MenuManagement.menuTypes[num].ID != id)
 				{
-					return menuTypes[i];
+					num++;
+				}
+				else
+				{
+					menuType = MenuManagement.menuTypes[num];
+					break;
 				}
 			}
-			return null;
+			return menuType;
 		}
 
 		public static OptionChoice GetOptionChoiceFromID(int id)
 		{
-			for (int i = 0; i < menuOptions.Length; i++)
+			for (int i = 0; i < (int)MenuManagement.menuOptions.Length; i++)
 			{
-				for (int j = 0; j < menuOptions[i].OptionChoices.Length; j++)
+				for (int j = 0; j < (int)MenuManagement.menuOptions[i].OptionChoices.Length; j++)
 				{
-					if (menuOptions[i].OptionChoices[j].ChoiceID == id)
+					if (MenuManagement.menuOptions[i].OptionChoices[j].ChoiceID == id)
 					{
-						return menuOptions[i].OptionChoices[j];
+						return MenuManagement.menuOptions[i].OptionChoices[j];
 					}
 				}
 			}
@@ -97,28 +131,9 @@ namespace smartRestaurant.Data
 
 		public static void LoadMenus()
 		{
-			smartRestaurant.MenuService.MenuService service = new smartRestaurant.MenuService.MenuService();
-			menuTypes = service.GetMenus("TOUCH");
-			menuOptions = service.GetOptions("TOUCH");
-		}
-
-		// Properties
-		public static MenuOption[] MenuOptions
-		{
-			get
-			{
-				return menuOptions;
-			}
-		}
-
-		public static MenuType[] MenuTypes
-		{
-			get
-			{
-				return menuTypes;
-			}
+			smartRestaurant.MenuService.MenuService menuService = new smartRestaurant.MenuService.MenuService();
+			MenuManagement.menuTypes = menuService.GetMenus("TOUCH");
+			MenuManagement.menuOptions = menuService.GetOptions("TOUCH");
 		}
 	}
- 
-
 }

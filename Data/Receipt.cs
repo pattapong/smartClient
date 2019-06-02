@@ -1,402 +1,63 @@
-using System;
-using System.Collections;
-using System.Windows.Forms;
 using smartRestaurant.CheckBillService;
-using smartRestaurant.MenuService;
 using smartRestaurant.OrderService;
 using smartRestaurant.PaymentService;
 using smartRestaurant.Utils;
+using System;
+using System.Collections;
+using System.Windows.Forms;
+
 namespace smartRestaurant.Data
 {
-	/// <summary>
-	/// Summary description for Receipt.
-	/// </summary>
 	public class Receipt
 	{
-		// Fields
-		private double amountDue;
-		private double change;
-		private PromotionCard coupon;
+		private static smartRestaurant.PaymentService.PaymentMethod[] paymentMethods;
+
 		private static PromotionCard[] coupons;
-		private static Discount[] discounts;
-		private int employeeID;
-		private PromotionCard giftVoucher;
+
 		private static PromotionCard[] giftVouchers;
-		private int invoiceID;
-		private string invoiceNote;
-		private int orderBillID;
-		private PaymentMethod paymentMethod;
-		private ArrayList paymentMethodList;
-		private static PaymentMethod[] paymentMethods;
-		private double payValue;
-		private ArrayList payValueList;
-		private int pointAmount;
+
+		private static Discount[] discounts;
+
 		private OrderBill selectedBill;
+
+		private int employeeID;
+
+		private int invoiceID;
+
+		private int orderBillID;
+
+		private string invoiceNote;
+
+		private double amountDue;
+
 		private double tax1;
+
 		private double tax2;
+
 		private double totalDiscount;
+
 		private double totalDue;
+
 		private double totalReceive;
+
+		private double change;
+
 		private ArrayList useDiscount;
 
-		// Methods
-		public Receipt(int invoiceID)
-		{
-			this.selectedBill = null;
-			this.totalReceive = 0.0;
-			this.paymentMethod = null;
-			this.paymentMethodList = new ArrayList();
-			this.payValueList = new ArrayList();
-			this.coupon = null;
-			this.giftVoucher = null;
-			this.useDiscount = new ArrayList();
-			this.invoiceID = invoiceID;
-			this.invoiceNote = string.Empty;
-			this.LoadInvoice();
-		}
+		private smartRestaurant.PaymentService.PaymentMethod paymentMethod;
 
-		public Receipt(OrderBill bill, int employeeID)
-		{
-			this.selectedBill = bill;
-			this.totalReceive = 0.0;
-			this.paymentMethod = null;
-			this.paymentMethodList = new ArrayList();
-			this.payValueList = new ArrayList();
-			this.coupon = null;
-			this.giftVoucher = null;
-			this.useDiscount = new ArrayList();
-			this.employeeID = employeeID;
-			this.invoiceID = 0;
-			this.invoiceNote = string.Empty;
-			this.LoadInvoice();
-		}
+		private double payValue;
 
-		public void ClearPaymentMethod()
-		{
-			this.paymentMethodList.Clear();
-			this.payValueList.Clear();
-		}
+		private ArrayList paymentMethodList;
 
-		public void Compute()
-		{
-			this.totalDue = 0.0;
-			double num = 0.0;
-			double num2 = 0.0;
-			if (this.useDiscount.Count > 0)
-			{
-				for (int j = 0; j < this.useDiscount.Count; j++)
-				{
-					Discount discount = (Discount) this.useDiscount[j];
-					if (discount.discountPercent > 0.0)
-					{
-						num2 += discount.discountPercent;
-					}
-					else if (discount.discountAmount > 0.0)
-					{
-						num += discount.discountAmount;
-					}
-				}
-			}
-			if ((this.selectedBill != null) && (this.selectedBill.Items != null))
-			{
-				BillPrice computeBillPrice = new smartRestaurant.CheckBillService.CheckBillService().GetComputeBillPrice(this.selectedBill.OrderBillID);
-				this.amountDue = computeBillPrice.totalPrice;
-				this.totalDiscount = computeBillPrice.totalDiscount;
-				this.tax1 = computeBillPrice.totalTax1;
-				this.tax2 = computeBillPrice.totalTax2;
-			}
-			else if (this.selectedBill != null)
-			{
-				this.totalDiscount = num;
-				this.amountDue = this.tax1 = this.tax2 = 0.0;
-			}
-			this.totalDue = ((this.amountDue - this.totalDiscount) + this.tax1) + this.tax2;
-			double num4 = 0.0;
-			for (int i = 0; i < this.payValueList.Count; i++)
-			{
-				num4 += (double) this.payValueList[i];
-			}
-			this.totalReceive = ((num4 + this.PointValue) + this.CouponValue) + this.GiftVoucherValue;
-			if (this.totalDue < 0.0)
-			{
-				this.totalDue = 0.0;
-			}
-			this.change = this.totalReceive - this.totalDue;
-			if (this.change < 0.0)
-			{
-				this.change = 0.0;
-			}
-		}
+		private ArrayList payValueList;
 
-		private Invoice CreateInvoice()
-		{
-			Invoice invoice = new Invoice();
-			invoice.invoiceID = this.invoiceID;
-			if (this.paymentMethod != null)
-			{
-				invoice.paymentMethodID = this.paymentMethod.paymentMethodID;
-			}
-			else
-			{
-				invoice.paymentMethodID = PaymentMethods[0].paymentMethodID;
-			}
-			if (this.selectedBill != null)
-			{
-				invoice.orderBillID = this.selectedBill.OrderBillID;
-			}
-			else
-			{
-				invoice.orderBillID = this.orderBillID;
-			}
-			invoice.point = this.pointAmount;
-			invoice.totalPrice = this.amountDue;
-			invoice.tax1 = this.tax1;
-			invoice.tax2 = this.tax2;
-			invoice.totalDiscount = this.totalDiscount;
-			invoice.totalReceive = this.totalReceive;
-			invoice.employeeID = this.employeeID;
-			invoice.refInvoice = 0;
-			invoice.invoiceNote = this.invoiceNote;
-			invoice.discounts = null;
-			if (this.useDiscount.Count > 0)
-			{
-				invoice.discounts = new InvoiceDiscount[this.useDiscount.Count];
-				for (int i = 0; i < this.useDiscount.Count; i++)
-				{
-					invoice.discounts[i] = new InvoiceDiscount();
-					invoice.discounts[i].promotionID = ((Discount) this.useDiscount[i]).promotionID;
-				}
-			}
-			invoice.payments = null;
-			if (this.paymentMethodList.Count > 0)
-			{
-				invoice.payments = new InvoicePayment[this.paymentMethodList.Count];
-				for (int j = 0; j < this.paymentMethodList.Count; j++)
-				{
-					invoice.payments[j] = new InvoicePayment();
-					invoice.payments[j].paymentMethodID = ((PaymentMethod) this.paymentMethodList[j]).paymentMethodID;
-					invoice.payments[j].receive = (double) this.payValueList[j];
-				}
-			}
-			return invoice;
-		}
+		private int pointAmount;
 
-		private void LoadInvoice()
-		{
-			Invoice invoiceByID;
-			smartRestaurant.CheckBillService.CheckBillService service = new smartRestaurant.CheckBillService.CheckBillService();
-			if (this.invoiceID == 0)
-			{
-				invoiceByID = service.GetInvoice(this.selectedBill.OrderBillID);
-			}
-			else
-			{
-				invoiceByID = service.GetInvoiceByID(this.invoiceID);
-			}
-			if (invoiceByID == null)
-			{
-				this.SendInvoice(false, false);
-			}
-			else if (invoiceByID.invoiceID == 0)
-			{
-				MessageBox.Show("Can't load invoice data");
-			}
-			else
-			{
-				this.invoiceID = invoiceByID.invoiceID;
-				this.invoiceNote = invoiceByID.invoiceNote;
-				this.paymentMethod = null;
-				if (PaymentMethods != null)
-				{
-					for (int i = 0; i < PaymentMethods.Length; i++)
-					{
-						if (PaymentMethods[i].paymentMethodID == invoiceByID.paymentMethodID)
-						{
-							this.paymentMethod = PaymentMethods[i];
-							break;
-						}
-					}
-				}
-				if (this.selectedBill == null)
-				{
-					this.employeeID = invoiceByID.employeeID;
-					this.orderBillID = invoiceByID.orderBillID;
-				}
-				this.amountDue = invoiceByID.totalPrice;
-				this.pointAmount = invoiceByID.point;
-				this.tax1 = invoiceByID.tax1;
-				this.tax2 = invoiceByID.tax2;
-				this.totalDiscount = invoiceByID.totalDiscount;
-				this.totalReceive = invoiceByID.totalReceive;
-				this.totalDue = ((this.amountDue + this.tax1) + this.tax2) - this.totalDiscount;
-				this.useDiscount.Clear();
-				if (invoiceByID.discounts != null)
-				{
-					for (int j = 0; j < invoiceByID.discounts.Length; j++)
-					{
-						for (int k = 0; k < Discounts.Length; k++)
-						{
-							if (Discounts[k].promotionID == invoiceByID.discounts[j].promotionID)
-							{
-								this.useDiscount.Add(Discounts[k]);
-								break;
-							}
-						}
-					}
-				}
-				this.paymentMethodList.Clear();
-				this.payValueList.Clear();
-				if (invoiceByID.payments != null)
-				{
-					for (int m = 0; m < invoiceByID.payments.Length; m++)
-					{
-						for (int n = 0; n < PaymentMethods.Length; n++)
-						{
-							if (PaymentMethods[n].paymentMethodID == invoiceByID.payments[m].paymentMethodID)
-							{
-								this.paymentMethodList.Add(PaymentMethods[n]);
-								this.payValueList.Add(invoiceByID.payments[m].receive);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
+		private PromotionCard coupon;
 
-		public void PrintInvoice()
-		{
-			Invoice invoice = this.CreateInvoice();
-			new smartRestaurant.OrderService.OrderService().ReprintBill(invoice.orderBillID);
-		}
+		private PromotionCard giftVoucher;
 
-		public static void PrintReceiptAll(OrderInformation orderInfo)
-		{
-			smartRestaurant.OrderService.OrderService service = new smartRestaurant.OrderService.OrderService();
-			for (int i = 0; i < orderInfo.Bills.Length; i++)
-			{
-				if (((orderInfo.Bills[i].Items != null) && (orderInfo.Bills[i].Items.Length > 0)) && (orderInfo.Bills[i].CloseBillDate == AppParameter.MinDateTime))
-				{
-					service.PrintReceipt(orderInfo.Bills[i].OrderBillID);
-				}
-			}
-		}
-
-		public static Discount SearchDiscountByID(int id)
-		{
-			for (int i = 0; i < discounts.Length; i++)
-			{
-				if (discounts[i].promotionID == id)
-				{
-					return discounts[i];
-				}
-			}
-			return null;
-		}
-
-		public static PaymentMethod SearchPaymentMethodByID(int id)
-		{
-			for (int i = 0; i < paymentMethods.Length; i++)
-			{
-				if (paymentMethods[i].paymentMethodID == id)
-				{
-					return paymentMethods[i];
-				}
-			}
-			return null;
-		}
-
-		public bool SendInvoice(bool closed, bool print)
-		{
-			smartRestaurant.CheckBillService.CheckBillService service = new smartRestaurant.CheckBillService.CheckBillService();
-			Invoice invoice = this.CreateInvoice();
-			if (!closed)
-			{
-				invoice.totalReceive = 0.0;
-			}
-			string s = service.SendInvoice(invoice);
-			try
-			{
-				this.invoiceID = int.Parse(s);
-			}
-			catch (Exception)
-			{
-				MessageBox.Show(s);
-				return true;
-			}
-			if (!closed && (this.invoiceID == -1))
-			{
-				return false;
-			}
-			if (print)
-			{
-				smartRestaurant.OrderService.OrderService service2 = new smartRestaurant.OrderService.OrderService();
-				if (closed)
-				{
-					service2.PrintBill(invoice.orderBillID);
-				}
-				else
-				{
-					service2.PrintReceipt(invoice.orderBillID);
-				}
-			}
-			if (this.invoiceID == -1)
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public void SetPaymentMethod(PaymentMethod method, double val)
-		{
-			if (method == null)
-			{
-				this.paymentMethodList.Clear();
-				this.payValueList.Clear();
-			}
-			else
-			{
-				int index = this.paymentMethodList.IndexOf(method);
-				if (val != 0.0)
-				{
-					if (index >= 0)
-					{
-						this.payValueList[index] = val;
-					}
-					else
-					{
-						this.paymentMethodList.Add(method);
-						this.payValueList.Add(val);
-					}
-				}
-				else if (index >= 0)
-				{
-					this.paymentMethodList.RemoveAt(index);
-					this.payValueList.RemoveAt(index);
-				}
-			}
-			this.payValue = 0.0;
-			for (int i = 0; i < this.payValueList.Count; i++)
-			{
-				this.payValue += (double) this.payValueList[i];
-			}
-			this.totalReceive = this.payValue;
-			this.paymentMethod = null;
-		}
-
-		public void UseDiscountAdd(Discount dis)
-		{
-			this.UseDiscount.Add(dis);
-			this.SendInvoice(false, false);
-		}
-
-		public void UseDiscountRemove(Discount dis)
-		{
-			this.UseDiscount.Remove(dis);
-			this.SendInvoice(false, false);
-		}
-
-		// Properties
 		public double AmountDue
 		{
 			get
@@ -429,11 +90,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				if (coupons == null)
+				if (Receipt.coupons == null)
 				{
-					coupons = new smartRestaurant.PaymentService.PaymentService().GetCoupons();
+					Receipt.coupons = (new smartRestaurant.PaymentService.PaymentService()).GetCoupons();
 				}
-				return coupons;
+				return Receipt.coupons;
 			}
 		}
 
@@ -441,11 +102,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				if (this.coupon != null)
+				if (this.coupon == null)
 				{
-					return this.coupon.amount;
+					return 0;
 				}
-				return 0.0;
+				return this.coupon.amount;
 			}
 		}
 
@@ -453,11 +114,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				if (discounts == null)
+				if (Receipt.discounts == null)
 				{
-					discounts = new smartRestaurant.PaymentService.PaymentService().GetDiscounts();
+					Receipt.discounts = (new smartRestaurant.PaymentService.PaymentService()).GetDiscounts();
 				}
-				return discounts;
+				return Receipt.discounts;
 			}
 		}
 
@@ -477,11 +138,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				if (giftVouchers == null)
+				if (Receipt.giftVouchers == null)
 				{
-					giftVouchers = new smartRestaurant.PaymentService.PaymentService().GetGiftVouchers();
+					Receipt.giftVouchers = (new smartRestaurant.PaymentService.PaymentService()).GetGiftVouchers();
 				}
-				return giftVouchers;
+				return Receipt.giftVouchers;
 			}
 		}
 
@@ -489,11 +150,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				if (this.giftVoucher != null)
+				if (this.giftVoucher == null)
 				{
-					return this.giftVoucher.amount;
+					return 0;
 				}
-				return 0.0;
+				return this.giftVoucher.amount;
 			}
 		}
 
@@ -513,11 +174,11 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				return (((long) (this.totalReceive * 100.0)) >= ((long) (this.totalDue * 100.0)));
+				return (long)(this.totalReceive * 100) >= (long)(this.totalDue * 100);
 			}
 		}
 
-		public PaymentMethod PaymentMethod
+		public smartRestaurant.PaymentService.PaymentMethod PaymentMethod
 		{
 			get
 			{
@@ -541,15 +202,15 @@ namespace smartRestaurant.Data
 			}
 		}
 
-		public static PaymentMethod[] PaymentMethods
+		public static smartRestaurant.PaymentService.PaymentMethod[] PaymentMethods
 		{
 			get
 			{
-				if (paymentMethods == null)
+				if (Receipt.paymentMethods == null)
 				{
-					paymentMethods = new smartRestaurant.PaymentService.PaymentService().GetPaymentMethods();
+					Receipt.paymentMethods = (new smartRestaurant.PaymentService.PaymentService()).GetPaymentMethods();
 				}
-				return paymentMethods;
+				return Receipt.paymentMethods;
 			}
 		}
 
@@ -593,7 +254,7 @@ namespace smartRestaurant.Data
 		{
 			get
 			{
-				return (((double) this.pointAmount) / 100.0);
+				return (double)this.pointAmount / 100;
 			}
 		}
 
@@ -648,7 +309,381 @@ namespace smartRestaurant.Data
 				return this.useDiscount;
 			}
 		}
+
+		public Receipt(OrderBill bill, int employeeID)
+		{
+			this.selectedBill = bill;
+			this.totalReceive = 0;
+			this.paymentMethod = null;
+			this.paymentMethodList = new ArrayList();
+			this.payValueList = new ArrayList();
+			this.coupon = null;
+			this.giftVoucher = null;
+			this.useDiscount = new ArrayList();
+			this.employeeID = employeeID;
+			this.invoiceID = 0;
+			this.invoiceNote = string.Empty;
+			this.LoadInvoice();
+		}
+
+		public Receipt(int invoiceID)
+		{
+			this.selectedBill = null;
+			this.totalReceive = 0;
+			this.paymentMethod = null;
+			this.paymentMethodList = new ArrayList();
+			this.payValueList = new ArrayList();
+			this.coupon = null;
+			this.giftVoucher = null;
+			this.useDiscount = new ArrayList();
+			this.invoiceID = invoiceID;
+			this.invoiceNote = string.Empty;
+			this.LoadInvoice();
+		}
+
+		public void ClearPaymentMethod()
+		{
+			this.paymentMethodList.Clear();
+			this.payValueList.Clear();
+		}
+
+		public void Compute()
+		{
+			this.totalDue = 0;
+			double num = 0;
+			double num1 = 0;
+			if (this.useDiscount.Count > 0)
+			{
+				for (int i = 0; i < this.useDiscount.Count; i++)
+				{
+					Discount item = (Discount)this.useDiscount[i];
+					if (item.discountPercent > 0)
+					{
+						num1 += item.discountPercent;
+					}
+					else if (item.discountAmount > 0)
+					{
+						num += item.discountAmount;
+					}
+				}
+			}
+			if (this.selectedBill != null && this.selectedBill.Items != null)
+			{
+				BillPrice computeBillPrice = (new smartRestaurant.CheckBillService.CheckBillService()).GetComputeBillPrice(this.selectedBill.OrderBillID);
+				this.amountDue = computeBillPrice.totalPrice;
+				this.totalDiscount = computeBillPrice.totalDiscount;
+				this.tax1 = computeBillPrice.totalTax1;
+				this.tax2 = computeBillPrice.totalTax2;
+			}
+			else if (this.selectedBill != null)
+			{
+				this.totalDiscount = num;
+				double num2 = 0;
+				double num3 = num2;
+				this.tax2 = num2;
+				double num4 = num3;
+				num3 = num4;
+				this.tax1 = num4;
+				this.amountDue = num3;
+			}
+			this.totalDue = this.amountDue - this.totalDiscount + this.tax1 + this.tax2;
+			double item1 = 0;
+			for (int j = 0; j < this.payValueList.Count; j++)
+			{
+				item1 += (double)this.payValueList[j];
+			}
+			this.totalReceive = item1 + this.PointValue + this.CouponValue + this.GiftVoucherValue;
+			if (this.totalDue < 0)
+			{
+				this.totalDue = 0;
+			}
+			this.change = this.totalReceive - this.totalDue;
+			if (this.change < 0)
+			{
+				this.change = 0;
+			}
+		}
+
+		private Invoice CreateInvoice()
+		{
+			Invoice invoice = new Invoice()
+			{
+				invoiceID = this.invoiceID
+			};
+			if (this.paymentMethod == null)
+			{
+				invoice.paymentMethodID = Receipt.PaymentMethods[0].paymentMethodID;
+			}
+			else
+			{
+				invoice.paymentMethodID = this.paymentMethod.paymentMethodID;
+			}
+			if (this.selectedBill == null)
+			{
+				invoice.orderBillID = this.orderBillID;
+			}
+			else
+			{
+				invoice.orderBillID = this.selectedBill.OrderBillID;
+			}
+			invoice.point = this.pointAmount;
+			invoice.totalPrice = this.amountDue;
+			invoice.tax1 = this.tax1;
+			invoice.tax2 = this.tax2;
+			invoice.totalDiscount = this.totalDiscount;
+			invoice.totalReceive = this.totalReceive;
+			invoice.employeeID = this.employeeID;
+			invoice.refInvoice = 0;
+			invoice.invoiceNote = this.invoiceNote;
+			invoice.discounts = null;
+			if (this.useDiscount.Count > 0)
+			{
+				invoice.discounts = new InvoiceDiscount[this.useDiscount.Count];
+				for (int i = 0; i < this.useDiscount.Count; i++)
+				{
+					invoice.discounts[i] = new InvoiceDiscount();
+					invoice.discounts[i].promotionID = ((Discount)this.useDiscount[i]).promotionID;
+				}
+			}
+			invoice.payments = null;
+			if (this.paymentMethodList.Count > 0)
+			{
+				invoice.payments = new InvoicePayment[this.paymentMethodList.Count];
+				for (int j = 0; j < this.paymentMethodList.Count; j++)
+				{
+					invoice.payments[j] = new InvoicePayment();
+					invoice.payments[j].paymentMethodID = ((smartRestaurant.PaymentService.PaymentMethod)this.paymentMethodList[j]).paymentMethodID;
+					invoice.payments[j].receive = (double)this.payValueList[j];
+				}
+			}
+			return invoice;
+		}
+
+		private void LoadInvoice()
+		{
+			Invoice invoice;
+			smartRestaurant.CheckBillService.CheckBillService checkBillService = new smartRestaurant.CheckBillService.CheckBillService();
+			invoice = (this.invoiceID != 0 ? checkBillService.GetInvoiceByID(this.invoiceID) : checkBillService.GetInvoice(this.selectedBill.OrderBillID));
+			if (invoice == null)
+			{
+				this.SendInvoice(false, false);
+			}
+			else
+			{
+				if (invoice.invoiceID == 0)
+				{
+					MessageBox.Show("Can't load invoice data");
+					return;
+				}
+				this.invoiceID = invoice.invoiceID;
+				this.invoiceNote = invoice.invoiceNote;
+				this.paymentMethod = null;
+				if (Receipt.PaymentMethods != null)
+				{
+					int num = 0;
+					while (num < (int)Receipt.PaymentMethods.Length)
+					{
+						if (Receipt.PaymentMethods[num].paymentMethodID != invoice.paymentMethodID)
+						{
+							num++;
+						}
+						else
+						{
+							this.paymentMethod = Receipt.PaymentMethods[num];
+							break;
+						}
+					}
+				}
+				if (this.selectedBill == null)
+				{
+					this.employeeID = invoice.employeeID;
+					this.orderBillID = invoice.orderBillID;
+				}
+				this.amountDue = invoice.totalPrice;
+				this.pointAmount = invoice.point;
+				this.tax1 = invoice.tax1;
+				this.tax2 = invoice.tax2;
+				this.totalDiscount = invoice.totalDiscount;
+				this.totalReceive = invoice.totalReceive;
+				this.totalDue = this.amountDue + this.tax1 + this.tax2 - this.totalDiscount;
+				this.useDiscount.Clear();
+				if (invoice.discounts != null)
+				{
+					for (int i = 0; i < (int)invoice.discounts.Length; i++)
+					{
+						int num1 = 0;
+						while (num1 < (int)Receipt.Discounts.Length)
+						{
+							if (Receipt.Discounts[num1].promotionID != invoice.discounts[i].promotionID)
+							{
+								num1++;
+							}
+							else
+							{
+								this.useDiscount.Add(Receipt.Discounts[num1]);
+								break;
+							}
+						}
+					}
+				}
+				this.paymentMethodList.Clear();
+				this.payValueList.Clear();
+				if (invoice.payments != null)
+				{
+					for (int j = 0; j < (int)invoice.payments.Length; j++)
+					{
+						int num2 = 0;
+						while (num2 < (int)Receipt.PaymentMethods.Length)
+						{
+							if (Receipt.PaymentMethods[num2].paymentMethodID != invoice.payments[j].paymentMethodID)
+							{
+								num2++;
+							}
+							else
+							{
+								this.paymentMethodList.Add(Receipt.PaymentMethods[num2]);
+								this.payValueList.Add(invoice.payments[j].receive);
+								break;
+							}
+						}
+					}
+					return;
+				}
+			}
+		}
+
+		public void PrintInvoice()
+		{
+			Invoice invoice = this.CreateInvoice();
+			(new smartRestaurant.OrderService.OrderService()).ReprintBill(invoice.orderBillID);
+		}
+
+		public static void PrintReceiptAll(OrderInformation orderInfo)
+		{
+			smartRestaurant.OrderService.OrderService orderService = new smartRestaurant.OrderService.OrderService();
+			for (int i = 0; i < (int)orderInfo.Bills.Length; i++)
+			{
+				if (orderInfo.Bills[i].Items != null && (int)orderInfo.Bills[i].Items.Length > 0 && orderInfo.Bills[i].CloseBillDate == AppParameter.MinDateTime)
+				{
+					orderService.PrintReceipt(orderInfo.Bills[i].OrderBillID);
+				}
+			}
+		}
+
+		public static Discount SearchDiscountByID(int id)
+		{
+			for (int i = 0; i < (int)Receipt.discounts.Length; i++)
+			{
+				if (Receipt.discounts[i].promotionID == id)
+				{
+					return Receipt.discounts[i];
+				}
+			}
+			return null;
+		}
+
+		public static smartRestaurant.PaymentService.PaymentMethod SearchPaymentMethodByID(int id)
+		{
+			for (int i = 0; i < (int)Receipt.paymentMethods.Length; i++)
+			{
+				if (Receipt.paymentMethods[i].paymentMethodID == id)
+				{
+					return Receipt.paymentMethods[i];
+				}
+			}
+			return null;
+		}
+
+		public bool SendInvoice(bool closed, bool print)
+		{
+			bool flag;
+			smartRestaurant.CheckBillService.CheckBillService checkBillService = new smartRestaurant.CheckBillService.CheckBillService();
+			Invoice invoice = this.CreateInvoice();
+			if (!closed)
+			{
+				invoice.totalReceive = 0;
+			}
+			string str = checkBillService.SendInvoice(invoice);
+			try
+			{
+				this.invoiceID = int.Parse(str);
+				if (!closed && this.invoiceID == -1)
+				{
+					return false;
+				}
+				if (print)
+				{
+					smartRestaurant.OrderService.OrderService orderService = new smartRestaurant.OrderService.OrderService();
+					if (!closed)
+					{
+						orderService.PrintReceipt(invoice.orderBillID);
+					}
+					else
+					{
+						orderService.PrintBill(invoice.orderBillID);
+					}
+				}
+				if (this.invoiceID == -1)
+				{
+					return false;
+				}
+				return true;
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(str);
+				flag = true;
+			}
+			return flag;
+		}
+
+		public void SetPaymentMethod(smartRestaurant.PaymentService.PaymentMethod method, double val)
+		{
+			if (method != null)
+			{
+				int num = this.paymentMethodList.IndexOf(method);
+				if (val != 0)
+				{
+					if (num < 0)
+					{
+						this.paymentMethodList.Add(method);
+						this.payValueList.Add(val);
+					}
+					else
+					{
+						this.payValueList[num] = val;
+					}
+				}
+				else if (num >= 0)
+				{
+					this.paymentMethodList.RemoveAt(num);
+					this.payValueList.RemoveAt(num);
+				}
+			}
+			else
+			{
+				this.paymentMethodList.Clear();
+				this.payValueList.Clear();
+			}
+			this.payValue = 0;
+			for (int i = 0; i < this.payValueList.Count; i++)
+			{
+				this.payValue += (double)this.payValueList[i];
+			}
+			this.totalReceive = this.payValue;
+			this.paymentMethod = null;
+		}
+
+		public void UseDiscountAdd(Discount dis)
+		{
+			this.UseDiscount.Add(dis);
+			this.SendInvoice(false, false);
+		}
+
+		public void UseDiscountRemove(Discount dis)
+		{
+			this.UseDiscount.Remove(dis);
+			this.SendInvoice(false, false);
+		}
 	}
-
-
 }
