@@ -60,19 +60,21 @@ namespace smartRestaurant.OrderService
 
 		public IAsyncResult BeginPrintBill(int OrderBillID, AsyncCallback callback, object asyncState)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+            string clientId = ConfigurationSettings.AppSettings["client_id"];
+            object[] orderBillID = new object[] { OrderBillID, clientId };
 			return base.BeginInvoke("PrintBill", orderBillID, callback, asyncState);
 		}
 
 		public IAsyncResult BeginPrintReceipt(int OrderBillID, AsyncCallback callback, object asyncState)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+             object[] orderBillID = new object[] { OrderBillID };
 			return base.BeginInvoke("PrintReceipt", orderBillID, callback, asyncState);
 		}
 
 		public IAsyncResult BeginReprintBill(int OrderBillID, AsyncCallback callback, object asyncState)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+            string clientId = ConfigurationSettings.AppSettings["client_id"];
+            object[] orderBillID = new object[] { OrderBillID, clientId };
 			return base.BeginInvoke("ReprintBill", orderBillID, callback, asyncState);
 		}
 
@@ -221,21 +223,23 @@ namespace smartRestaurant.OrderService
 		[SoapDocumentMethod("http://ws.smartRestaurant.net/PrintBill", RequestNamespace="http://ws.smartRestaurant.net", ResponseNamespace="http://ws.smartRestaurant.net", Use=SoapBindingUse.Literal, ParameterStyle=SoapParameterStyle.Wrapped)]
 		public int PrintBill(int OrderBillID)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+            string clientId = ConfigurationSettings.AppSettings["client_id"];
+            object[] orderBillID = new object[] { OrderBillID, clientId };
 			return (int)base.Invoke("PrintBill", orderBillID)[0];
 		}
 
 		[SoapDocumentMethod("http://ws.smartRestaurant.net/PrintReceipt", RequestNamespace="http://ws.smartRestaurant.net", ResponseNamespace="http://ws.smartRestaurant.net", Use=SoapBindingUse.Literal, ParameterStyle=SoapParameterStyle.Wrapped)]
 		public int PrintReceipt(int OrderBillID)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+            object[] orderBillID = new object[] { OrderBillID };
 			return (int)base.Invoke("PrintReceipt", orderBillID)[0];
 		}
 
 		[SoapDocumentMethod("http://ws.smartRestaurant.net/ReprintBill", RequestNamespace="http://ws.smartRestaurant.net", ResponseNamespace="http://ws.smartRestaurant.net", Use=SoapBindingUse.Literal, ParameterStyle=SoapParameterStyle.Wrapped)]
 		public int ReprintBill(int OrderBillID)
 		{
-			object[] orderBillID = new object[] { OrderBillID };
+            string clientId = ConfigurationSettings.AppSettings["client_id"];
+            object[] orderBillID = new object[] { OrderBillID, clientId };
 			return (int)base.Invoke("ReprintBill", orderBillID)[0];
 		}
 
